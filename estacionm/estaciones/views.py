@@ -1,15 +1,14 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from estaciones.models import Newlectura as Lectura  # Ajusta el nombre del modelo según tu aplicación
 
-# Create your views here.
 
-from django.http import HttpResponse
-from django.core.paginator import Paginator
-from .models import Medicionescombinadas
-
-def mediclima_list(request):
-    mediciones = Medicionescombinadas.objects.all().order_by('-fecha_lec_sen')
-    paginator = Paginator(mediciones, 10)  # Mostrar 10 registros por página
+def mediciones_list(request):
+    datos = Lectura.objects.all().order_by('-hora')
+    paginator = Paginator(datos, 10)  # Mostrar 10 elementos por página
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request, 'mediclima_list.html', {'page_obj': page_obj})
+    return render(request, 'mediciones_list.html', {'page_obj': page_obj})
+
+

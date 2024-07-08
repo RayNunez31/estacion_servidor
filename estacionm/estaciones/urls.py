@@ -4,5 +4,5 @@ from . import views
 
 app_name = "estaciones"
 urlpatterns = [
-    path('lecturas/', views.mediclima_list, name='mediclima_list'),
+    path('', views.mediciones_list, name='mediciones_list'),
 ]

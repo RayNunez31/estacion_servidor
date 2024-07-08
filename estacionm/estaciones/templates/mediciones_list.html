@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Datos Estación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: blue;
+        }
+        .pagination .current {
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        .refresh-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .refresh-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Datos de las Estaciones</h1>
+    <button class="refresh-button" onclick="location.reload()">Refrescar</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Estación ID</th>
+                <th>Temperatura</th>
+                <th>Presión Atmosférica</th>
+                <th>Velocidad del Viento</th>
+                <th>Dirección del Viento</th>
+                <th>Humedad</th>
+                <th>Pluvialidad</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="datos-table-body">
+            {% for dato in page_obj %}
+            <tr>
+                <td>{{ dato.id_estacion }}</td>
+                <td>{{ dato.temperatura }}</td>
+                <td>{{ dato.presionatmosferica }}</td>
+                <td>{{ dato.velocidad_del_viento }}</td>
+                <td>{{ dato.direccion_del_viento }}</td>
+                <td>{{ dato.humedad }}</td>
+                <td>{{ dato.pluvialidad }}</td>
+                <td>{{ dato.hora }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; primero</a>
+                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:6789/ws/data/');
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const tableBody = document.getElementById('datos-table-body');
+            const newRow = `<tr>
+                <td>${data.id_estacion}</td>
+                <td>${data.temperatura}</td>
+                <td>${data.presionatmosferica}</td>
+                <td>${data.velocidad_del_viento}</td>
+                <td>${data.direccion_del_viento}</td>
+                <td>${data.humedad}</td>
+                <td>${data.pluvialidad}</td>
+                <td>${data.hora}</td>
+            </tr>`;
+            tableBody.insertAdjacentHTML('afterbegin', newRow);
+        };
+    </script>
+</body>
+</html>

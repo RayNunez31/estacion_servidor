@@ -152,6 +152,7 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+#Parte del codigo ha sido omitida
 class Medicionescombinadas(models.Model):
     velvient = models.FloatField(blank=True, null=True)
     direcvien = models.IntegerField(blank=True, null=True)
@@ -169,3 +170,17 @@ class Medicionescombinadas(models.Model):
         managed = False
         db_table = 'medicionescombinadas'
         unique_together = (('id_estacion', 'fecha_med_lec', 'fecha_lec_sen', 'id_sensor'),)
+    
+class Newlectura(models.Model):
+    id_lectura = models.IntegerField(blank=True, null=True)
+    id_estacion = models.CharField(max_length=50, blank=True, null=True)
+    temperatura = models.FloatField(blank=True, null=True)
+    humedad = models.FloatField(blank=True, null=True)
+    presionatmosferica = models.FloatField(blank=True, null=True)
+    velocidad_del_viento = models.FloatField(blank=True, null=True)
+    direccion_del_viento = models.FloatField(blank=True, null=True)
+    pluvialidad = models.FloatField(blank=True, null=True)
+    hora = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'newlectura'
