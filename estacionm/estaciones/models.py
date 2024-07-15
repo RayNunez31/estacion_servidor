@@ -5,7 +5,7 @@ class Sensor(models.Model):
     id_sensor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
     modelo = models.CharField(max_length=100, blank=True, null=True)
-    descripcion = models.CharField(max_length=200, blank=True, null=True)
+    ddescripcion = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False  # Assuming Sensor details are managed externally
@@ -36,19 +36,6 @@ class Mediclima(models.Model):
         db_table = 'MediClima'
         unique_together = (('id_med', 'id_estacion', 'fecha_med_lec'),)
 
-
-class Sensorgen(models.Model):
-    presionat = models.FloatField(db_column='PresionAt', blank=True, null=True)  # Field name made lowercase.
-    id_estacion = models.OneToOneField(Estac, models.DO_NOTHING, db_column='Id_Estacion', primary_key=True)  # Field name made lowercase. The composite primary key (Id_Estacion, Fecha_Lec_Sen, Id_Sensor) found, that is not supported. The first column is selected.
-    fecha_lec_sen = models.DateTimeField(db_column='Fecha_Lec_Sen')  # Field name made lowercase.
-    temperatura = models.FloatField(db_column='Temperatura', blank=True, null=True)  # Field name made lowercase.
-    humedad = models.FloatField(db_column='Humedad', blank=True, null=True)  # Field name made lowercase.
-    id_sensor = models.BigIntegerField(db_column='Id_Sensor')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'SensorGen'
-        unique_together = (('id_estacion', 'fecha_lec_sen', 'id_sensor'),)
 
 
 class AuthGroup(models.Model):
@@ -163,26 +150,6 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
-
-
-#Parte del codigo ha sido omitida
-class Medicionescombinadas(models.Model):
-    velvient = models.FloatField(blank=True, null=True)
-    direcvien = models.IntegerField(blank=True, null=True)
-    id_estacion = models.BigIntegerField(blank=True, null=True)
-    pluvi = models.FloatField(blank=True, null=True)
-    fecha_med_lec = models.DateTimeField(blank=True, null=True)
-    presionat = models.FloatField(blank=True, null=True)
-    fecha_lec_sen = models.DateTimeField(blank=True, null=True)
-    temperatura = models.FloatField(blank=True, null=True)
-    humedad = models.FloatField(blank=True, null=True)
-    id_sensor = models.BigIntegerField(blank=True, null=True)
-    id_med = models.AutoField(primary_key=True)
-
-    class Meta:
-        managed = False
-        db_table = 'medicionescombinadas'
-        unique_together = (('id_estacion', 'fecha_med_lec', 'fecha_lec_sen', 'id_sensor'),)
     
 class Newlectura(models.Model):
     id_lectura = models.IntegerField(blank=True, null=True)
