@@ -216,6 +216,7 @@
 
         .frame-header .header-button-container button {
             margin-left: 10px;
+            font-size: 1.2em;
     
         }
       
@@ -297,10 +298,12 @@
         <div class="frame-text">
             <h2>ID {{ estacion.id_estacion }} - {{ estacion.nombre }}</h2>
             <p class="frame-text-content">Descripción: {{ estacion.descripcion }}</p>
-            <a href="#" class="administrar">Administrar</a>
+            <br>
+            <!-- Modificado el enlace del botón "Administrar" -->
+            <a href="/dashboard/?estacion_id={{ estacion.id_estacion }}" class="administrar">Ver detalles</a>
             <br>
             <br> <!-- Añadido un salto de línea para separar los botones -->
-            <a href="#" class="detalles">Ver detalles de la estacion</a>
+            <a href="#" class="detalles">Administrar</a>
         </div>
     </div>
     {% endfor %}

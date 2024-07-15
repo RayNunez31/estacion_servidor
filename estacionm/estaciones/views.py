@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from estaciones.models import Newlectura as Lectura  # Ajusta el nombre del modelo según tu aplicación
 from estaciones.models import Estac
+from estaciones.models import Sensor
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -11,7 +12,6 @@ from .forms import EstacForm
 from django.contrib import messages
 
 
-@login_required
 def mediciones_list(request):
     datos = Lectura.objects.all().order_by('-hora')
     paginator = Paginator(datos, 10)  # Mostrar 10 elementos por página
@@ -89,5 +89,39 @@ def crear_estacion(request):
     return render(request, 'crear_estacion.html', {'form': form})
 
 @login_required
-def dashboard_estacion(request):
-    return render(request, 'dashboard_estacion.html')
+def dashboard_view(request):
+    estacion_id = request.GET.get('estacion_id')
+    
+    # Cargar datos de la estación usando estacion_id
+    estacion = Estac.objects.get(id_estacion=estacion_id)
+    
+    # Obtener la última lectura asociada a esta estación
+    ultima_lectura = Lectura.objects.filter(estacion=estacion).latest('hora')  # Suponiendo que tienes un campo 'hora' en tu modelo Lectura
+    sensores_estacion = Sensor.objects.filter(estacion=estacion)
+
+    # Pasar 'estacion' y 'ultima_lectura' al contexto de renderizado de tu plantilla de dashboard
+    context = {
+        'estacion': estacion,
+        'ultima_lectura': ultima_lectura,
+        'sensores': sensores_estacion,
+    }
+    
+    return render(request, 'dashboard_estacion.html', context)
+
+@login_required
+def registro_lectura_view(request):
+    estacion_id = request.GET.get('estacion_id')
+    
+    # Cargar datos de la estación usando estacion_id
+    estacion = Estac.objects.get(id_estacion=estacion_id)
+    
+    # Obtener la última lectura asociada a esta estación
+    lecturas_estacion = Lectura.objects.filter(estacion=estacion)  
+
+    # Pasar 'estacion' y 'ultima_lectura' al contexto de renderizado de tu plantilla de dashboard
+    context = {
+        'estacion': estacion,
+        'lecturas': lecturas_estacion,
+    }
+    
+    return render(request, 'registro_lectura.html', context)

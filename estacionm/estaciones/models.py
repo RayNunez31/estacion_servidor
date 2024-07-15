@@ -1,42 +1,44 @@
 from django.db import models
 
 
+from django.db import models
+
+class Estac(models.Model):
+    id_estacion = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.CharField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'estac'
+
+
+class Newlectura(models.Model):
+    id_lectura = models.AutoField(primary_key=True)
+    estacion = models.ForeignKey(Estac, models.DO_NOTHING, blank=True, null=True)
+    temperatura = models.FloatField(blank=True, null=True)
+    humedad = models.FloatField(blank=True, null=True)
+    presionatmosferica = models.FloatField(blank=True, null=True)
+    velocidad_del_viento = models.FloatField(blank=True, null=True)
+    direccion_del_viento = models.FloatField(blank=True, null=True)
+    pluvialidad = models.FloatField(blank=True, null=True)
+    hora = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'newlectura'
+
+
 class Sensor(models.Model):
     id_sensor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
     modelo = models.CharField(max_length=100, blank=True, null=True)
-    ddescripcion = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False  # Assuming Sensor details are managed externally
-        db_table = 'Sensor'  # Adjust table name as per your database schema
-
-class Estac(models.Model):
-    nombre = models.CharField(max_length=100, blank=True, null=True)
-    id_estacion = models.AutoField(primary_key=True)
-    descripcion = models.CharField(max_length=200, blank=True, null=True)
-    sensores = models.ManyToManyField(Sensor, related_name='estaciones', blank=True)
+    descripcion = models.TextField(blank=True, null=True)
+    estacion = models.ForeignKey(Estac, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'Estac'
-
-
-
-class Mediclima(models.Model):
-    id_med = models.BigIntegerField(db_column='Id_Med', primary_key=True)  # Field name made lowercase. The composite primary key (Id_Med, Id_Estacion, Fecha_Med_Lec) found, that is not supported. The first column is selected.
-    velvient = models.FloatField(db_column='VelVient', blank=True, null=True)  # Field name made lowercase.
-    direcvien = models.IntegerField(db_column='DirecVien', blank=True, null=True)  # Field name made lowercase.
-    id_estacion = models.ForeignKey(Estac, models.DO_NOTHING, db_column='Id_Estacion')  # Field name made lowercase.
-    pluvi = models.FloatField(db_column='Pluvi', blank=True, null=True)  # Field name made lowercase.
-    fecha_med_lec = models.DateTimeField(db_column='Fecha_Med_Lec')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'MediClima'
-        unique_together = (('id_med', 'id_estacion', 'fecha_med_lec'),)
-
-
+        db_table = 'sensor'
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -151,16 +153,3 @@ class DjangoSession(models.Model):
         managed = False
         db_table = 'django_session'
     
-class Newlectura(models.Model):
-    id_lectura = models.IntegerField(blank=True, null=True)
-    id_estacion = models.CharField(max_length=50, blank=True, null=True)
-    temperatura = models.FloatField(blank=True, null=True)
-    humedad = models.FloatField(blank=True, null=True)
-    presionatmosferica = models.FloatField(blank=True, null=True)
-    velocidad_del_viento = models.FloatField(blank=True, null=True)
-    direccion_del_viento = models.FloatField(blank=True, null=True)
-    pluvialidad = models.FloatField(blank=True, null=True)
-    hora = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'newlectura'

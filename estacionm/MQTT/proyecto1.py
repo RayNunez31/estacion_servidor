@@ -28,13 +28,13 @@ def Datos(station_id):
     fecha_hora = datetime.strptime(f"{fecha_formateada} {hora_formateada}", "%Y-%m-%d %H:%M:%S")
 
     return {
-        "id_lectura": get_next_id(),  # Obtener el siguiente ID de lectura
-        "id_estacion": station_id,
+        "id_lectura": get_next_id(),
+        "estacion_id": station_id,
         "temperatura": round(random.uniform(18, 35), 2),
         "humedad": round(random.uniform(0, 100), 2),
-        "presionAtmosferica": round(random.uniform(950, 1050), 2),
-        "velocidadViento": round(random.uniform(0, 100), 2),
-        "direccionViento": round(random.uniform(0, 255), 2),
+        "presionatmosferica": round(random.uniform(950, 1050), 2),
+        "velocidad_del_viento": round(random.uniform(0, 100), 2),
+        "direccion_del_viento": round(random.uniform(0, 255), 2),
         "pluvialidad": round(random.uniform(0, 100), 2),
         "hora": fecha_hora
     }
@@ -54,19 +54,19 @@ def connect_mqtt(client_id):
 def publish(client, station_id):
     while True:
         datos = Datos(station_id)
-        payload = json.dumps(datos, default=str)  # Usar default=str para serializar datetime
+        payload = json.dumps(datos, default=str)
         topic = f"{base_topic}/{station_id}/sensores"
         result = client.publish(topic, payload)
         status = result[0]
         if status == 0:
-            print(f"Enviado `{payload}` a `{topic}`")
+            print(f"Enviado {payload} a {topic}")
         else:
             print(f"Mensaje fallido {topic}")
         time.sleep(5)
 
 def subscribe(client, station_ids):
     def on_message(client, userdata, msg):
-        print(f"Recibido `{msg.payload.decode()}` de `{msg.topic}`")
+        print(f"Recibido {msg.payload.decode()} de {msg.topic}")
         datos = json.loads(msg.payload.decode())
         
         try:
@@ -78,8 +78,8 @@ def subscribe(client, station_ids):
             )
             cursor = connection.cursor()
             insert_query = """
-            INSERT INTO newlectura (id_lectura, id_estacion, temperatura, humedad, presionAtmosferica, velocidad_del_viento, direccion_del_viento, pluvialidad, hora)
-            VALUES (%(id_lectura)s, %(id_estacion)s, %(temperatura)s, %(humedad)s, %(presionAtmosferica)s, %(velocidadViento)s, %(direccionViento)s, %(pluvialidad)s, %(hora)s)
+            INSERT INTO newlectura (id_lectura, estacion_id, temperatura, humedad, presionatmosferica, velocidad_del_viento, direccion_del_viento, pluvialidad, hora)
+            VALUES (%(id_lectura)s, %(estacion_id)s, %(temperatura)s, %(humedad)s, %(presionatmosferica)s, %(velocidad_del_viento)s, %(direccion_del_viento)s, %(pluvialidad)s, %(hora)s)
             """
             cursor.execute(insert_query, datos)
             connection.commit()
@@ -106,10 +106,9 @@ def run_publisher(station_ids):
     for t in threads:
         t.join()
 
-def run_subscriber():
+def run_subscriber(station_ids):
     client_id = f'subscribe-{random.randint(0, 1000)}'
     client = connect_mqtt(client_id)
-    station_ids = ["estacion1", "estacion2"]  # Puedes agregar más estaciones aquí si es necesario
     subscribe(client, station_ids)
     client.loop_forever()
 
@@ -122,27 +121,69 @@ if __name__ == '__main__':
             database='AntenaMeteorologica'
         )
         cursor = connection.cursor()
-        crear_tabla_query = """
-            CREATE TABLE IF NOT EXISTS newLectura (
-                id SERIAL PRIMARY KEY,
-                id_lectura INT,
-                id_estacion VARCHAR(50),
+        
+        # Crear tablas
+        crear_tabla_estac_query = """
+            CREATE TABLE IF NOT EXISTS estac (
+                id_estacion SERIAL PRIMARY KEY,
+                nombre VARCHAR(100),
+                descripcion VARCHAR(200)
+            )
+        """
+        cursor.execute(crear_tabla_estac_query)
+
+        crear_tabla_sensor_query = """
+            CREATE TABLE IF NOT EXISTS sensor (
+                id_sensor SERIAL PRIMARY KEY,
+                nombre VARCHAR(100),
+                modelo VARCHAR(100),
+                descripcion TEXT,
+                estacion_id INT REFERENCES estac(id_estacion)
+            )
+        """
+        cursor.execute(crear_tabla_sensor_query)
+
+        crear_tabla_newlectura_query = """
+            CREATE TABLE IF NOT EXISTS newlectura (
+                id_lectura SERIAL PRIMARY KEY,
+                estacion_id INT REFERENCES estac(id_estacion),
                 temperatura FLOAT,
                 humedad FLOAT,
-                presionAtmosferica FLOAT,
+                presionatmosferica FLOAT,
                 velocidad_del_viento FLOAT,
                 direccion_del_viento FLOAT,
                 pluvialidad FLOAT,
                 hora TIMESTAMP
             )
-            """
-        cursor.execute(crear_tabla_query)
+        """
+        cursor.execute(crear_tabla_newlectura_query)
+
+        # Insertar estaciones de ejemplo
+        estaciones = [
+            ('Estación 1', 'Descripción de la Estación 1'),
+            ('Estación 2', 'Descripción de la Estación 2')
+        ]
+
+        for nombre, descripcion in estaciones:
+            try:
+                cursor.execute("""
+                    INSERT INTO estac (nombre, descripcion) 
+                    VALUES (%s, %s)
+                """, (nombre, descripcion))
+            except Exception as e:
+                print(f"Error al insertar estación: {e}")
+
+        # Obtener IDs de estaciones
+        cursor.execute("SELECT id_estacion FROM estac WHERE nombre IN ('Estación 1', 'Estación 2')")
+        estaciones = cursor.fetchall()
+        station_ids = [estacion[0] for estacion in estaciones]
+
         connection.commit()
         cursor.close()
         connection.close()
-        print("Tabla creada correctamente o ya existía.")
+        print("Tablas creadas y estaciones insertadas correctamente.")
     except Exception as e:
-        print(f"Error al crear la tabla: {e}")
+        print(f"Error al crear las tablas o insertar estaciones: {e}")
 
-    Thread(target=run_publisher, args=([f"estacion{i}" for i in range(1, 3)],)).start()
-    Thread(target=run_subscriber).start()
+    Thread(target=run_publisher, args=(station_ids,)).start()
+    Thread(target=run_subscriber, args=(station_ids,)).start()

@@ -1,15 +1,16 @@
 from django.urls import path
 
 from . import views
-from .views import login_view, register_view, logout_view, crear_estacion, dashboard_estacion
+from .views import login_view, register_view, logout_view, crear_estacion, dashboard_view, registro_lectura_view
 
 app_name = "estaciones"
 urlpatterns = [
-    #path('', views.mediciones_list, name='mediciones_list'),
+    path('view/', views.mediciones_list, name='mediciones_list'),
     path('logout/', logout_view, name='logout'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('crear_estacion/', crear_estacion, name='crear_estacion'),
-    path('dashboard/', dashboard_estacion, name='dashboard'),
+    path('dashboard/', dashboard_view, name='dashboard'),
+    path('registro_lectura/', registro_lectura_view, name='registro_lectura'),
     path('', views.estaciones, name='estaciones'),
 ]
