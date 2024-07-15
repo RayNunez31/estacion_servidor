@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estaciones</title>
+    <!-- Integración de Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+
+
+    <style>
+        /* Estilos adicionales para los frames */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            margin: 10px; /* Margen general de 10 píxeles */
+            padding: 10px;
+        }
+
+        .menu-divider {
+            border-top: 1px solid #eee; /* Color gris claro */
+            margin: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .title-frame {
+            text-align: center;
+            align-content: left;
+            border: 1px solid #F5F5F5;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-frame h1 {
+            background-color: #F5F5F5; /* Nuevo color de fondo del título */
+            padding: 100px;
+            border-radius: 20px;
+            font-size: 5em; /* Tamaño de la fuente aumentado */
+        }
+
+        .frame {
+            display: flex; /* Usar flexbox para alinear elementos */
+            align-items: flex-start; /* Alinear al inicio verticalmente */
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin: 40px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .frame h2 {
+            font-size: 1.2em;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .frame p {
+            margin-bottom: 5px;
+        }
+
+        .frame a.administrar {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #2C2C2C; /* Color para administrar */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .frame a.administrar:hover {
+            background-color: #1C1C1C;
+        }
+
+        .frame a.detalles {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #E3E3E3; /* Color para detalles */
+            color: #000; /* Color de texto para detalles */
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .frame a.detalles:hover {
+            background-color: #CCCCCC;
+        }
+
+        .frame .communication-status {
+            padding: 5px 10px;
+            background-color: #CFF7D3; /* Color de fondo para el estado de comunicación */
+            color: #02542D; /* Color de texto para el estado de comunicación */
+            border-radius: 4px;
+            margin-right: 10px; /* Espacio a la derecha */
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center; /* Centrar la paginación */
+        }
+
+        .create-button {
+            display: inline-block;
+            margin: 30px;
+            padding: 10px 70px;
+            background-color: #2C2C2C; /* Nuevo color del botón */
+            color: #F5F5F5;
+            text-decoration: none;
+            border-radius: 6px;
+            
+        }
+
+        .create-button:hover {
+            background-color: #1C1C1C;
+        }
+
+        /* Estilo para la imagen dentro del frame */
+        .frame img {
+            margin-right: 10px;
+            width: 100px; /* Ajusta según el tamaño de tu imagen */
+            height: auto;
+        }
+
+        /* Estilo para alinear el texto a la derecha de la imagen */
+        .frame-text {
+            flex: 1; /* El contenido de texto ocupa todo el espacio restante */
+        }
+
+        .frame-text-content {
+            margin-bottom: 5px;
+        }
+
+        /* Estilo para la sección de búsqueda y ordenamiento */
+        .search-sort {
+            margin: 40px 0; /* Margen de 40 píxeles arriba y abajo */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Estilo para la barra de búsqueda */
+        .search-sort input[type="text"] {
+            width: 400px; /* Ancho de la barra de búsqueda aumentado */
+            border-radius: 20px; /* Borde redondeado */
+            border: 1px solid #D9D9D9; /* Borde color D9D9D9 */
+            padding: 10px;
+            color: #B3B3B3; /* Color del texto interior */
+            background-color: #ffffff; /* Fondo de la barra de búsqueda */
+            outline: none; /* Sin contorno al enfocar */
+            margin-left: 35px;
+        }
+
+        /* Estilo para los botones de ordenamiento */
+        .search-sort .sort-buttons {
+            text-align: right; /* Alinear los botones a la derecha */
+        }
+
+        .search-sort .sort-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-sort .sort-button.active {
+            background-color: #2C2C2C; /* Color de fondo activo */
+            color: #F5F5F5; /* Color de texto activo */
+        }
+
+        .search-sort .sort-button.inactive {
+            background-color: #E3E3E3; /* Color de fondo inactivo */
+            color: #000; /* Color de texto inactivo */
+        }
+        .header {
+            display: flex;
+            justify-content: flex-end; /* Alinea los elementos al final del contenedor (derecha en este caso) */
+            margin-bottom: 0px; /* Espacio inferior */
+        }
+
+        .header button {
+            margin-left: 10px; /* Espacio entre botones */
+            padding: 8px 16px; /* Padding para los botones */
+            background-color: #2C2C2C; /* Color de fondo */
+            color: #F5F5F5; /* Color de texto */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #1C1C1C; /* Cambio de color al pasar el ratón */
+        }
+
+        .frame-header {
+            text-align: right; /* Alineación del contenido a la derecha dentro del frame */
+            border: 1px solid #ffffff;
+            border-radius: 0x;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .frame-header h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .frame-header .header-button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .frame-header .header-button-container button {
+            margin-left: 10px;
+    
+        }
+      
+        .frame-header .header-button-container button:nth-child(1),
+        .frame-header .header-button-container button:nth-child(2),
+        .frame-header .header-button-container button:nth-child(3),
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: transparent; /* Fondo transparente */
+            color: #000000; /* Color de texto */
+            border: 2px solid transparent; /* Borde transparente */
+            border-radius: 20px; /* Borde redondeado */
+            padding: 8px 16px; /* Ajuste de padding */
+            cursor: pointer;
+        }
+
+        .frame-header .header-button-container button:nth-child(1) {
+            background-color: #F5F5F5; /* Color para "Estaciones" */
+        }
+
+        .frame-header .header-button-container button:nth-child(2) {
+            background-color: #FFFFFF; /* Color para "Recursos" */
+        }
+
+        .frame-header .header-button-container button:nth-child(3) {
+            background-color: #FFFFFF; /* Color para "Contacto" */
+        }
+
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: #2C2C2C; /* Color para "Cerrar Sesión" */
+            color: #FFFFFF; /* Cambio de color de texto para "Cerrar Sesión" */
+        }
+
+        .frame-header .header-button-container button:hover {
+            background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="frame-header">
+        <div class="header-button-container">
+            <button>Estaciones</button>
+            <button>Recursos</button>
+            <button>Contacto</button>
+            <form action="/logout/" method="post" id="logout-form">
+                {% csrf_token %}
+                <button type="submit">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+    <!-- Título en frame -->
+    <div class="title-frame">
+        <h1>Estaciones</h1>
+        <!-- Botón de creación de estación -->
+        <hr class="menu-divider">
+        <div style="text-align: left;">
+            <a href="/crear_estacion/" class="create-button">Crear estación</a>
+        </div>
+    </div>
+
+    <!-- Búsqueda y ordenamiento -->
+    <form method="GET" class="search-sort">
+        <input type="text" name="q" placeholder="Buscar por nombre" value="">
+        <div class="sort-buttons">
+            <button type="submit" name="sort" value="asc" class="sort-button {% if sort == 'asc' %}active{% else %}inactive{% endif %}">Ascendente</button>
+            <button type="submit" name="sort" value="desc" class="sort-button {% if sort == 'desc' %}active{% else %}inactive{% endif %}">Descendente</button>
+        </div>
+    </form>
+
+    <!-- Frames de Estaciones -->
+    {% for estacion in page_obj %}
+    <div class="frame">
+        <div>
+            <span class="communication-status">Estado: {{ estacion.estado_comunicacion }}</span>
+            <br>
+            <br>
+            <img src="{{ estacion.imagen_url }}" alt="Imagen de la estación">
+        </div>
+        <div class="frame-text">
+            <h2>ID {{ estacion.id_estacion }} - {{ estacion.nombre }}</h2>
+            <p class="frame-text-content">Descripción: {{ estacion.descripcion }}</p>
+            <a href="#" class="administrar">Administrar</a>
+            <br>
+            <br> <!-- Añadido un salto de línea para separar los botones -->
+            <a href="#" class="detalles">Ver detalles de la estacion</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Paginación -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Primero</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>

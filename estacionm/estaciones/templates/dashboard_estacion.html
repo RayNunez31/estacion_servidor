@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estaciones</title>
+    <!-- Integración de Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+
+    <style>
+        /* Estilos adicionales para los frames */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            margin: 10px; /* Margen general de 10 píxeles */
+            padding: 10px;
+        }
+
+        .menu-divider {
+            border-top: 1px solid #eee; /* Color gris claro */
+            margin: 10px 0;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .title-frame {
+            text-align: left;
+            align-content: left;
+            border: 1px solid #F5F5F5;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-frame h1 {
+            background-color: #F5F5F5; /* Nuevo color de fondo del título */
+            color: #1C1C1C;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 3em; /* Tamaño de la fuente aumentado */
+            margin: 10px;
+        }
+
+        .frame {
+            display: block; /* Usar block para alinear elementos en columna */
+            text-align: left; /* Alinear al inicio verticalmente */
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin: 30px;
+            background-color: #F5F5F5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative; /* Para posicionamiento absoluto de la imagen */
+        }
+
+        .frame h2 {
+            font-size: 1em;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            margin: 30px;
+            margin-top: 10px;
+            color: #1E1E1E;
+        }
+
+        .frame p {
+            margin-bottom: 20px;
+            margin: 30px;
+            font-size: 0.9em;
+            color: #757575;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end; /* Alinea los elementos al final del contenedor (derecha en este caso) */
+            margin-bottom: 0px; /* Espacio inferior */
+        }
+
+        .header button {
+            margin-left: 10px; /* Espacio entre botones */
+            padding: 8px 16px; /* Padding para los botones */
+            background-color: #2C2C2C; /* Color de fondo */
+            color: #F5F5F5; /* Color de texto */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #1C1C1C; /* Cambio de color al pasar el ratón */
+        }
+
+        .frame-header {
+            text-align: right; /* Alineación del contenido a la derecha dentro del frame */
+            border: 1px solid #ffffff;
+            border-radius: 0px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .frame-header h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .frame-header .header-button-container {
+            display: flex;
+            justify-content: right; /* Alinea los botones al centro */
+            margin-bottom: 20px; /* Espacio inferior */
+        }
+
+        .frame-header .header-button-container button {
+            margin-left: 10px;
+            background-color: transparent; /* Fondo transparente */
+            color: #000000; /* Color de texto */
+            border: 2px solid transparent; /* Borde transparente */
+            border-radius: 20px; /* Borde redondeado */
+            padding: 8px 16px; /* Ajuste de padding */
+            cursor: pointer;
+        }
+
+        .frame-header .header-button-container button:nth-child(1) {
+            background-color: #F5F5F5; /* Color para "Estaciones" */
+        }
+
+        .frame-header .header-button-container button:nth-child(2) {
+            background-color: #FFFFFF; /* Color para "Recursos" */
+        }
+
+        .frame-header .header-button-container button:nth-child(3) {
+            background-color: #FFFFFF; /* Color para "Contacto" */
+        }
+
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: #2C2C2C; /* Color para "Cerrar Sesión" */
+            color: #FFFFFF; /* Cambio de color de texto para "Cerrar Sesión" */
+        }
+
+        .frame-header .header-button-container button:hover {
+            background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
+        }
+
+        .frame img {
+            position: absolute;
+            top: 30px; /* Ajusta la posición vertical según sea necesario */
+            right: 130px; /* Ajusta la posición horizontal según sea necesario */
+            width: 580px; /* Ajusta el tamaño de la imagen */
+            height: auto; /* Mantiene la proporción de la imagen */
+            border-radius: 10px; /* Bordes redondeados para la imagen */
+        }
+
+        /* Estilos para el segundo set de botones */
+        .frame-header2 {
+            text-align: center; /* Alinear al centro */
+            border-radius: 0px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            margin-bottom: 0px;
+        }
+
+        .frame-header2 .header-button-container2 {
+            display: flex;
+            justify-content: center; /* Alinea los botones al centro */
+            margin-bottom: 5px; /* Espacio inferior */
+        }
+
+        .frame-header2 .header-button-container2 button {
+            margin-left: 10px;
+            background-color: #1c1c1c; /* Fondo transparente */
+            color: #f5f5f5; /* Color de texto */
+            border: 2px solid transparent; /* Borde transparente */
+            border-radius: 20px; /* Borde redondeado */
+            padding: 8px 100px; /* Ajuste de padding */
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .frame-header2 .header-button-container2 button:hover {
+            background-color: #757575; /* Fondo transparente */
+            color: #1C1C1C; /* Color de texto */
+        }
+    </style>
+</head>
+<body>
+    <div class="frame-header">
+        <div class="header-button-container">
+            <button>Estaciones</button>
+            <button>Recursos</button>
+            <button>Contacto</button>
+            <form action="/logout/" method="post" id="logout-form">
+                {% csrf_token %}
+                <button type="submit">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+    <!-- Título en frame -->
+    <div class="title-frame">
+        <h1>Reporte del clima de la estación</h1>
+        <!-- Contenedor para los datos de la última lectura -->
+        <hr class="menu-divider">
+        <div class="frame">
+            <h2>Temperatura</h2>
+            <p>La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
+            <h2>Humedad</h2>
+            <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
+            <h2>Presión Atmosférica</h2>
+            <p>La presion atmosferica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
+            <h2>Velocidad del Viento</h2>
+            <p>La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s </p>
+            <h2>Dirección del Viento</h2>
+            <p>La direccion actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
+            <h2>Pluvialidad</h2>
+            <p>Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
+            <!-- Imagen alineada a la derecha -->
+            <img src="../static/images/sunny.png" alt="Clima es soleado">
+        </div>
+        <hr class="menu-divider">
+        <!-- Segundo set de botones -->
+        <div class="frame-header2">
+            <div class="header-button-container2">
+                <button>Administrar estación</button>
+                <button>Ver lecturas</button>
+                <button>Administrar alarmas</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

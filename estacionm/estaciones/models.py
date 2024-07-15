@@ -1,13 +1,26 @@
 from django.db import models
 
 
+class Sensor(models.Model):
+    id_sensor = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    modelo = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.CharField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        managed = False  # Assuming Sensor details are managed externally
+        db_table = 'Sensor'  # Adjust table name as per your database schema
+
 class Estac(models.Model):
-    nombre = models.CharField(db_column='Nombre', blank=True, null=True)  # Field name made lowercase.
-    id_estacion = models.BigIntegerField(db_column='Id_Estacion', primary_key=True)  # Field name made lowercase.
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    id_estacion = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=200, blank=True, null=True)
+    sensores = models.ManyToManyField(Sensor, related_name='estaciones', blank=True)
 
     class Meta:
         managed = False
         db_table = 'Estac'
+
 
 
 class Mediclima(models.Model):

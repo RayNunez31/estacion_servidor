@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-ry^v6gt9)ftj#r1habhxk2c_v#z-l1j4_bb!q+x*ss#lgglvok
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.155','itt363-5.smar.com.do']
+ALLOWED_HOSTS = ['192.168.100.155','itt363-5.smar.com.do', "127.0.0.1"]
 
 
 # Application definition
@@ -140,3 +141,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INSTALLED_APPS+=["django_tables2"]
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/estaciones/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

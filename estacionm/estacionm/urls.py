@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", include("estaciones.urls")),
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    path('', include('estaciones.urls')),  # Reemplaza 'estaciones' con el nombre de tu aplicación
 ]
