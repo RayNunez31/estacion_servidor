@@ -2,7 +2,7 @@ from asyncio import sleep
 import random
 import time
 import json
-from threading import Thread, Lock
+from threading import Thread
 from paho.mqtt import client as mqtt_client
 import psycopg2
 from datetime import datetime
@@ -11,16 +11,6 @@ broker = "test.mosquitto.org"
 port = 1883
 base_topic = "estacion"
 
-# Variables globales para el ID de lectura
-last_id_lectura = 0
-id_lock = Lock()
-
-def get_next_id():
-    global last_id_lectura
-    with id_lock:
-        last_id_lectura += 1
-        return last_id_lectura
-
 def Datos(station_id):
     hora_actual = time.localtime()
     fecha_formateada = time.strftime("%Y-%m-%d", hora_actual)
@@ -28,7 +18,6 @@ def Datos(station_id):
     fecha_hora = datetime.strptime(f"{fecha_formateada} {hora_formateada}", "%Y-%m-%d %H:%M:%S")
 
     return {
-        "id_lectura": get_next_id(),
         "estacion_id": station_id,
         "temperatura": round(random.uniform(18, 35), 2),
         "humedad": round(random.uniform(0, 100), 2),
@@ -78,8 +67,8 @@ def subscribe(client, station_ids):
             )
             cursor = connection.cursor()
             insert_query = """
-            INSERT INTO newlectura (id_lectura, estacion_id, temperatura, humedad, presionatmosferica, velocidad_del_viento, direccion_del_viento, pluvialidad, hora)
-            VALUES (%(id_lectura)s, %(estacion_id)s, %(temperatura)s, %(humedad)s, %(presionatmosferica)s, %(velocidad_del_viento)s, %(direccion_del_viento)s, %(pluvialidad)s, %(hora)s)
+            INSERT INTO newlectura (estacion_id, temperatura, humedad, presionatmosferica, velocidad_del_viento, direccion_del_viento, pluvialidad, hora)
+            VALUES (%(estacion_id)s, %(temperatura)s, %(humedad)s, %(presionatmosferica)s, %(velocidad_del_viento)s, %(direccion_del_viento)s, %(pluvialidad)s, %(hora)s)
             """
             cursor.execute(insert_query, datos)
             connection.commit()
@@ -165,13 +154,21 @@ if __name__ == '__main__':
         ]
 
         for nombre, descripcion in estaciones:
-            try:
-                cursor.execute("""
-                    INSERT INTO estac (nombre, descripcion) 
-                    VALUES (%s, %s)
-                """, (nombre, descripcion))
-            except Exception as e:
-                print(f"Error al insertar estación: {e}")
+            # Check if the station already exists
+            cursor.execute("SELECT id_estacion FROM estac WHERE nombre = %s", (nombre,))
+            station_exists = cursor.fetchone()
+            
+            if station_exists:
+                print(f"Estación '{nombre}' ya existe con ID {station_exists[0]}.")
+            else:
+                try:
+                    cursor.execute("""
+                        INSERT INTO estac (nombre, descripcion) 
+                        VALUES (%s, %s)
+                    """, (nombre, descripcion))
+                    print(f"Estación '{nombre}' insertada correctamente.")
+                except Exception as e:
+                    print(f"Error al insertar estación '{nombre}': {e}")
 
         # Obtener IDs de estaciones
         cursor.execute("SELECT id_estacion FROM estac WHERE nombre IN ('Estación 1', 'Estación 2')")

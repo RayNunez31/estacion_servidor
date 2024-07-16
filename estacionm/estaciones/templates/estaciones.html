@@ -110,6 +110,7 @@
             color: #F5F5F5;
             text-decoration: none;
             border-radius: 6px;
+            font-size: 1.4em;
             
         }
 
@@ -120,7 +121,7 @@
         /* Estilo para la imagen dentro del frame */
         .frame img {
             margin-right: 10px;
-            width: 100px; /* Ajusta según el tamaño de tu imagen */
+            width: 150px; /* Ajusta según el tamaño de tu imagen */
             height: auto;
         }
 
@@ -293,7 +294,7 @@
             <span class="communication-status">Estado: {{ estacion.estado_comunicacion }}</span>
             <br>
             <br>
-            <img src="{{ estacion.imagen_url }}" alt="Imagen de la estación">
+            <img src="../static/images/estac.png" alt="Imagen de la estación">
         </div>
         <div class="frame-text">
             <h2>ID {{ estacion.id_estacion }} - {{ estacion.nombre }}</h2>
@@ -303,7 +304,7 @@
             <a href="/dashboard/?estacion_id={{ estacion.id_estacion }}" class="administrar">Ver detalles</a>
             <br>
             <br> <!-- Añadido un salto de línea para separar los botones -->
-            <a href="#" class="detalles">Administrar</a>
+            <a href="/administrar/?estacion_id={{ estacion.id_estacion }}" class="detalles">Administrar</a>
         </div>
     </div>
     {% endfor %}

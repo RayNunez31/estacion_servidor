@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import login_view, register_view, logout_view, crear_estacion, dashboard_view, registro_lectura_view
+from .views import login_view, register_view, logout_view, crear_estacion, dashboard_view, registro_lectura_view, lectura_detalle, administrar_view
 
 app_name = "estaciones"
 urlpatterns = [
@@ -12,5 +12,7 @@ urlpatterns = [
     path('crear_estacion/', crear_estacion, name='crear_estacion'),
     path('dashboard/', dashboard_view, name='dashboard'),
     path('registro_lectura/', registro_lectura_view, name='registro_lectura'),
+    path('lectura_detalle/', lectura_detalle, name='lectura_detalle'),
+    path('administrar/', administrar_view, name='administrar'),
     path('', views.estaciones, name='estaciones'),
 ]

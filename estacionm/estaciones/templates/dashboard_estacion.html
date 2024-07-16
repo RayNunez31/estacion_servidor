@@ -132,6 +132,12 @@
             box-shadow: none;
 
         }
+
+        .frame-header2 .header-button-container2 button:nth-child(1) a{
+             /* Color para "Estaciones" */
+             color: #F5F5F5;
+            text-decoration: none;
+        }
         .frame-header2 .header-button-container2 button:nth-child(2) a{
              /* Color para "Estaciones" */
              color: #F5F5F5;
@@ -256,6 +262,7 @@
 
         .sensor-frame p {
             margin-bottom: 20px;
+            margin-left: 20px;
             font-size: 0.9em;
             color: #757575;
         }
@@ -264,7 +271,7 @@
 <body>
     <div class="frame-header">
         <div class="header-button-container">
-            <button><a href="/">Estaciones</a></button>
+            <button  onclick="window.location.href='/'">Estaciones</a></button>
             <button>Recursos</button>
             <button>Contacto</button>
             <form action="/logout/" method="post" id="logout-form">
@@ -279,26 +286,42 @@
         <!-- Contenedor para los datos de la última lectura -->
         <hr class="menu-divider">
         <div class="frame">
-            <h2>Temperatura</h2>
-            <p>La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
-            <h2>Humedad</h2>
-            <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
-            <h2>Presión Atmosférica</h2>
-            <p>La presión atmosférica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
-            <h2>Velocidad del Viento</h2>
-            <p>La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
-            <h2>Dirección del Viento</h2>
-            <p>La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
-            <h2>Pluvialidad</h2>
-            <p>Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
+            {% if ultima_lectura != None %}
+                <h2>Temperatura</h2>
+                <p>La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
+                <h2>Humedad</h2>
+                <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
+                <h2>Presión Atmosférica</h2>
+                <p>La presión atmosférica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
+                <h2>Velocidad del Viento</h2>
+                <p>La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
+                <h2>Dirección del Viento</h2>
+                <p>La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
+                <h2>Pluvialidad</h2>
+                <p>Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
+                {% else %}
+                    <h2>Temperatura</h2>
+                    <p>-</p>
+                    <h2>Humedad</h2>
+                    <p>-</p>
+                    <h2>Presión Atmosférica</h2>
+                    <p>-</p>
+                    <h2>Velocidad del Viento</h2>
+                    <p>-</p>
+                    <h2>Dirección del Viento</h2>
+                    <p>-</p>
+                    <h2>Pluvialidad</h2>
+                    <p>-</p>
+                {% endif %}
             <!-- Imagen alineada a la derecha -->
             <img src="../static/images/sunny.png" alt="Clima es soleado">
         </div>
         <hr class="menu-divider">
         <!-- Segundo set de botones -->
+          
         <div class="frame-header2">
             <div class="header-button-container2">
-                <button>Administrar estación</button>
+                <button><a href="/administrar/?estacion_id={{ estacion.id_estacion }}">Administrar estacion</a></button>
                 <button><a href="/registro_lectura/?estacion_id={{ estacion.id_estacion }}">Ver lecturas</a></button>
                 <button>Administrar alarmas</button>
             </div>

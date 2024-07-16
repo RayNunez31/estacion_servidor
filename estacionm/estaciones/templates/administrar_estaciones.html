@@ -7,7 +7,6 @@
     <!-- Integración de Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
-
     <style>
         /* Estilos adicionales para los frames */
         body {
@@ -29,22 +28,30 @@
             border: 1px solid #F5F5F5;
             border-radius: 8px;
             padding: 10px;
-            padding-bottom: 70px;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
+
+            padding-top: 50px;
             background-color: #F5F5F5;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .title-frame2 {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-content: left;
+            border: 1px solid #F5F5F5;
+            border-radius: 8px;
+            padding: 10px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
         }
 
         .title-frame h1 {
             background-color: #F5F5F5; /* Nuevo color de fondo del título */
             padding: 0px;
             border-radius: 20px;
-            padding-top: 50px;
             font-size: 5em; /* Tamaño de la fuente aumentado */
-        }
-        .title-frame p{
-            color: #2C2C2C;
-            margin-bottom: 40px;
         }
 
         .frame {
@@ -54,26 +61,20 @@
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            margin: 40px;
+            margin: 20px;
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        
-
         .frame h2 {
             font-size: 1.2em;
             padding-bottom: 5px;
-            margin-left: 10px;
             margin-bottom: 20px;
         }
 
         .frame p {
             margin-bottom: 5px;
-            margin-left: 10px;
-
         }
-
 
         .header {
             display: flex;
@@ -117,9 +118,8 @@
 
         .frame-header .header-button-container button {
             margin-left: 10px;
-    
         }
-      
+
         .frame-header .header-button-container button:nth-child(1),
         .frame-header .header-button-container button:nth-child(2),
         .frame-header .header-button-container button:nth-child(3),
@@ -152,87 +152,118 @@
         .frame-header .header-button-container button:hover {
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
-        /* Estilo para la sección de búsqueda y ordenamiento */
-        .search-sort {
-            margin: 40px 0; /* Margen de 40 píxeles arriba y abajo */
-            display: flex;
-            justify-content: space-between;
+
+        .station-card {
+            width: 400px;
+            text-align: left;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            padding-right: 40px;
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .station-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .station-card label {
+            display: block;
+            margin-bottom: 20px;
+
+        }
+
+        .station-card input[type="text"],
+        .station-card textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .station-card button {
+            padding: 12px 16px;
+            margin-right: 10px;
+            background-color: #2C2C2C;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            width:300px;
+            align-self: center;
         }
         
-        .frame .frame-text .card-button{
-            padding: 15px;
-            background-color: #1C1C1C;
-            color: #F5F5F5;
-            border: transparent;
-            border-radius: 15px;
-            font-size: 1.2em;
-        }
-        .frame .frame-text .card-button:hover{
-            padding: 15px;
-            background-color: #B3B3B3;
-            color: #1C1C1C;
-            border: transparent;
-            border-radius: 15px;
-            font-size: 1.2em;
-            cursor: pointer;
-        }
-
-
-        /* Estilo para la barra de búsqueda */
-        .search-sort input[type="text"] {
-            width: 400px; /* Ancho de la barra de búsqueda aumentado */
-            border-radius: 20px; /* Borde redondeado */
-            border: 1px solid #D9D9D9; /* Borde color D9D9D9 */
-            padding: 10px;
-            color: #B3B3B3; /* Color del texto interior */
-            background-color: #ffffff; /* Fondo de la barra de búsqueda */
-            outline: none; /* Sin contorno al enfocar */
-            margin-left: 35px;
-        }
-
-        /* Estilo para los botones de ordenamiento */
-        .search-sort .sort-buttons {
-            text-align: right; /* Alinear los botones a la derecha */
-        }
-
-        .search-sort .sort-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .search-sort .sort-button.active {
-            background-color: #2C2C2C; /* Color de fondo activo */
-            color: #F5F5F5; /* Color de texto activo */
-        }
-
-        .search-sort .sort-button.inactive {
-            background-color: #E3E3E3; /* Color de fondo inactivo */
-            color: #000; /* Color de texto inactivo */
-        }
-        .pagination {
+        .miniframe{
             margin-top: 20px;
-            text-align: center; /* Centrar la paginación */
-        }
-        .frame img {
-            margin-right: 20px;
-            width: 80px; /* Ajusta según el tamaño de tu imagen */
-            height: auto;
+            text-align: center;
+            justify-items: center;
         }
 
-        .innter{
-            margin-top: 30px;
-            margin-left: 10px;
+        .sensor-frame h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #1E1E1E;
         }
+
+        .sensor-frame p {
+            margin-bottom: 20px;
+            margin-left: 20px;
+            font-size: 0.9em;
+            color: #757575;
+        }
+        .sensor-frame {
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #FFFFFF;
+            font-size: 1.5em;
+        }
+
+        .sensor-frame h2{
+            margin-left: 20px;
+        }
+        .card {
+            width:auto;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            padding-right: 100px;
+            margin: 15px;
+            margin-top: 30px;
+            background-color: #FFFFFF;
+            font-size: 0.8em;
+
+        }
+        .card button{
+            margin-left: 20px;
+            font-size: 1.2em;
+            padding: 20px;
+            border: transparent;
+            border-radius: 20px;
+            color: #f5f5f5;
+            background-color: #1C1C1C;
+        }
+         .card h3{
+            font-size: 1.3em;
+            margin-left: 20px;
+         }
+         .bottom-frame{
+            margin: 40px;
+         }
+
     </style>
-    
 </head>
 <body>
     <div class="frame-header">
         <div class="header-button-container">
-            <button onclick="window.location.href='/'">Estaciones</button>
+            <button  onclick="window.location.href='/'">Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
             <form action="/logout/" method="post" id="logout-form">
@@ -241,55 +272,64 @@
             </form>
         </div>
     </div>
-    <!-- Título en frame -->
-    <div class="title-frame">
-        <h1>Registro de lecturas</h1>
-        <p>Lecturas para la estacion ID{{ estacion.id_estacion }} - {{ estacion.nombre }}</p>
+     <!-- Título en frame -->
+     <div class="title-frame">
+        <h1>Administrar Estación</h1>
+        <!-- Tarjeta de estación -->
+        <div class = "title-frame2">
+            <div class="station-card">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.errors %}
+                        <ul>
+                            {% for error in field.errors %}
+                            <li style="color: red;">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="miniframe">
+                        <button type="submit">Completar</button>
+                        <br>
+                        <button type="button">Eliminar estación</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
     </div>
 
-    <!-- Búsqueda y ordenamiento -->
-    <form method="GET" class="search-sort">
-        <input type="text" name="q" placeholder="Buscar por fecha (YYYY-MM-DD)" value="">
-        <div class="sort-buttons">
-            <button type="submit" name="sort" value="asc" class="sort-button {% if sort == 'asc' %}active{% else %}inactive{% endif %}">Ascendente</button>
-            <button type="submit" name="sort" value="desc" class="sort-button {% if sort == 'desc' %}active{% else %}inactive{% endif %}">Descendente</button>
+    <!-- Mensajes de éxito -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
         </div>
-    </form>
-     <!-- Frames de Estaciones -->
-     {% for lecturas in page_obj %}
-     <div class="frame">
-        <div class = innter>
-            <img src="../static/images/lect.png" alt="Imagen de la lectura">
-        </div>
-         <div class="frame-text">
-             <h2>ID{{ lecturas.id_lectura }} </h2>
-             <p class="frame-text-content">Lectura recibida: {{ lecturas.hora }}</p>
-             <br>
-             <!-- Modificado el enlace del botón "Administrar" -->
-             <button class="card-button" onclick="window.location.href='/lectura_detalle/?lectura_id={{ lecturas.id_lectura }}'">Ver detalles</button>
-             <br>
-         </div>
-     </div>
-     {% endfor %}
+    {% endif %}
 
- 
-     <!-- Paginación -->
-     <div class="pagination">
-         <span class="step-links">
-             {% if page_obj.has_previous %}
-                 <a href="?page=1">&laquo; Primero</a>
-                 <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-             {% endif %}
- 
-             <span class="current">
-                 Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-             </span>
- 
-             {% if page_obj.has_next %}
-                 <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                 <a href="?page={{ page_obj.paginator.num_pages }}">Último &raquo;</a>
-             {% endif %}
-         </span>
-     </div>
+    <div class="bottom-frame">
+        <div class="sensor-frame">
+            <h2>Equipos conectados a la estación</h2>
+            {% if sensores.all %}
+                {% for sensor in sensores.all %}
+                    <div class="card">
+                        <h3>ID{{ sensor.id_sensor }} - {{ sensor.nombre }}</h3>
+                        <p>Modelo: {{ sensor.modelo }}</p>
+                        <p>Descripción: {{ sensor.descripcion }}</p>
+                        <button class="sensor-button">Eliminar sensor</button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay sensores asociados a esta estación.</p>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>

@@ -7,7 +7,6 @@
     <!-- Integración de Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
-
     <style>
         /* Estilos adicionales para los frames */
         body {
@@ -42,38 +41,31 @@
             padding-top: 50px;
             font-size: 5em; /* Tamaño de la fuente aumentado */
         }
-        .title-frame p{
+        .title-frame p {
             color: #2C2C2C;
             margin-bottom: 40px;
         }
 
         .frame {
             display: flex; /* Usar flexbox para alinear elementos */
+            justify-content: flex-start; /* Alinear al final del contenedor (derecha en este caso) */
             align-items: flex-start; /* Alinear al inicio verticalmente */
-            border: 1px solid #ccc;
+            border:transparent;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            margin: 40px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        
 
         .frame h2 {
             font-size: 1.2em;
             padding-bottom: 5px;
-            margin-left: 10px;
             margin-bottom: 20px;
         }
 
         .frame p {
             margin-bottom: 5px;
-            margin-left: 10px;
-
         }
-
 
         .header {
             display: flex;
@@ -117,9 +109,8 @@
 
         .frame-header .header-button-container button {
             margin-left: 10px;
-    
         }
-      
+
         .frame-header .header-button-container button:nth-child(1),
         .frame-header .header-button-container button:nth-child(2),
         .frame-header .header-button-container button:nth-child(3),
@@ -152,79 +143,87 @@
         .frame-header .header-button-container button:hover {
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
-        /* Estilo para la sección de búsqueda y ordenamiento */
-        .search-sort {
-            margin: 40px 0; /* Margen de 40 píxeles arriba y abajo */
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .frame .frame-text .card-button{
-            padding: 15px;
-            background-color: #1C1C1C;
-            color: #F5F5F5;
+
+        .card {
+            margin-left: 320px;
+            background-color: #fff;
             border: transparent;
-            border-radius: 15px;
-            font-size: 1.2em;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px; /* Ajuste del ancho del card */
+            margin-right: 20px; /* Margen a la derecha del card */
         }
-        .frame .frame-text .card-button:hover{
-            padding: 15px;
-            background-color: #B3B3B3;
+
+        .card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
             color: #1C1C1C;
-            border: transparent;
-            border-radius: 15px;
-            font-size: 1.2em;
-            cursor: pointer;
         }
 
+        .card p {
+            margin-bottom: 20px;
+            color: #a0a0a0;
+        }
 
-        /* Estilo para la barra de búsqueda */
-        .search-sort input[type="text"] {
-            width: 400px; /* Ancho de la barra de búsqueda aumentado */
-            border-radius: 20px; /* Borde redondeado */
-            border: 1px solid #D9D9D9; /* Borde color D9D9D9 */
+        .card button {
+            display: block;
+            width: 100%;
             padding: 10px;
-            color: #B3B3B3; /* Color del texto interior */
-            background-color: #ffffff; /* Fondo de la barra de búsqueda */
-            outline: none; /* Sin contorno al enfocar */
-            margin-left: 35px;
-        }
-
-        /* Estilo para los botones de ordenamiento */
-        .search-sort .sort-buttons {
-            text-align: right; /* Alinear los botones a la derecha */
-        }
-
-        .search-sort .sort-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 20px;
+            background-color: #2C2C2C;
+            color: #F5F5F5;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
+            margin-top: 5px;
+            font-size: 1.2em;
         }
 
-        .search-sort .sort-button.active {
-            background-color: #2C2C2C; /* Color de fondo activo */
-            color: #F5F5F5; /* Color de texto activo */
+        .card button:hover {
+            background-color: #1C1C1C;
+        }
+        .frame2 {
+            display: flex; /* Usar flexbox para alinear elementos */
+            justify-content: center; /* Alinear al inicio del contenedor */
+            align-items: center; /* Alinear al inicio verticalmente */
+            flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
         }
 
-        .search-sort .sort-button.inactive {
-            background-color: #E3E3E3; /* Color de fondo inactivo */
-            color: #000; /* Color de texto inactivo */
-        }
-        .pagination {
-            margin-top: 20px;
-            text-align: center; /* Centrar la paginación */
-        }
-        .frame img {
-            margin-right: 20px;
-            width: 80px; /* Ajusta según el tamaño de tu imagen */
-            height: auto;
+        .frame3 {
+            display: flex; /* Usar flexbox para alinear elementos */
+            justify-content: center; /* Alinear al inicio del contenedor */
+            align-items: center; /* Alinear al inicio verticalmente */
+            flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
         }
 
-        .innter{
-            margin-top: 30px;
-            margin-left: 10px;
+        .card2 {
+            display: block;
+            align-content:flex-end;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 30px;
+            margin-right: 30px;
+            margin-bottom: 30px;
+            width: 325px; /* Ancho del card */
+            height: 291px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card2 h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            width: fit-content;
+            color: #1C1C1C;
+            
+        }
+
+        .card2 p {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #a0a0a0;
+        }
+        .card2 img{
+            width: 160px;
         }
     </style>
     
@@ -232,7 +231,7 @@
 <body>
     <div class="frame-header">
         <div class="header-button-container">
-            <button onclick="window.location.href='/'">Estaciones</button>
+            <button>Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
             <form action="/logout/" method="post" id="logout-form">
@@ -243,53 +242,57 @@
     </div>
     <!-- Título en frame -->
     <div class="title-frame">
-        <h1>Registro de lecturas</h1>
-        <p>Lecturas para la estacion ID{{ estacion.id_estacion }} - {{ estacion.nombre }}</p>
+        <h1>Detalle de lectura</h1>
     </div>
-
-    <!-- Búsqueda y ordenamiento -->
-    <form method="GET" class="search-sort">
-        <input type="text" name="q" placeholder="Buscar por fecha (YYYY-MM-DD)" value="">
-        <div class="sort-buttons">
-            <button type="submit" name="sort" value="asc" class="sort-button {% if sort == 'asc' %}active{% else %}inactive{% endif %}">Ascendente</button>
-            <button type="submit" name="sort" value="desc" class="sort-button {% if sort == 'desc' %}active{% else %}inactive{% endif %}">Descendente</button>
+    <!-- Frame con card alineado a la derecha -->
+    <div class="frame">
+        <div class="card">
+            <h3>ID de Lectura: {{ lectura.id_lectura }}</h3>
+            <p>Lectura recibida: {{ lectura.hora }}</p>
+            <p>Estación: {{ lectura.estacion.nombre }}</p>
+            <button onclick="window.location.href='/dashboard/?estacion_id={{lectura.estacion.id_estacion}}'">Ver Detalles de la Estación</button>
         </div>
-    </form>
-     <!-- Frames de Estaciones -->
-     {% for lecturas in page_obj %}
-     <div class="frame">
-        <div class = innter>
-            <img src="../static/images/lect.png" alt="Imagen de la lectura">
+    </div>
+    <div class="frame2">
+        <!-- Card para cada variable de Newlectura -->
+        <div class="card2">
+            <img src="../static/images/temp.png" alt="Temperatura">
+            <h2>Temperatura</h2>
+            <p>{{ lectura.temperatura }} Grados celsius</p>
         </div>
-         <div class="frame-text">
-             <h2>ID{{ lecturas.id_lectura }} </h2>
-             <p class="frame-text-content">Lectura recibida: {{ lecturas.hora }}</p>
-             <br>
-             <!-- Modificado el enlace del botón "Administrar" -->
-             <button class="card-button" onclick="window.location.href='/lectura_detalle/?lectura_id={{ lecturas.id_lectura }}'">Ver detalles</button>
-             <br>
-         </div>
-     </div>
-     {% endfor %}
 
- 
-     <!-- Paginación -->
-     <div class="pagination">
-         <span class="step-links">
-             {% if page_obj.has_previous %}
-                 <a href="?page=1">&laquo; Primero</a>
-                 <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-             {% endif %}
- 
-             <span class="current">
-                 Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-             </span>
- 
-             {% if page_obj.has_next %}
-                 <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                 <a href="?page={{ page_obj.paginator.num_pages }}">Último &raquo;</a>
-             {% endif %}
-         </span>
-     </div>
+        <div class="card2">
+            <img src="../static/images/rain.png" alt="Humedad">
+            <h2>Humedad</h2>
+            <p>{{ lectura.humedad }} gramos por metro cubico</p>
+        </div>
+
+        <div class="card2">
+            <img src="../static/images/press.png" alt="presion_atmosferica">
+            <h2>Presión Atmosférica</h2>
+            <p>{{ lectura.presionatmosferica }} hectopascales</p>
+        </div>
+    <div class = "frame3">
+        <div class="card2">
+            <img src="../static/images/wind.png" alt="velocidad_del_viento">
+            <h2>Velocidad del Viento</h2>
+            <p>{{ lectura.velocidad_del_viento }} metros por segundo</p>
+        </div>
+
+        <div class="card2">
+            <img src="../static/images/direct.png" alt="direccion_del_viento">
+            <h2>Dirección del Viento</h2>
+            <p>{{ lectura.direccion_del_viento }}</p>
+        </div>
+
+        <div class="card2">
+            <img src="../static/images/rain.png" alt="Pluvialidad">
+            <h2>Pluvialidad</h2>
+            <p>{{ lectura.pluvialidad }} litros por metro cuadrado</p>
+        </div>
+    <div>
+
+
+    
 </body>
 </html>
