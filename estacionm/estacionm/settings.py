@@ -150,3 +150,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://itt363-5.smar.com.do',
+    # Add other trusted origins if needed
+]
