@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estaciones</title>
+    <title>Cuenta</title>
     <!-- Integración de Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
     <style>
-        /* Estilos adicionales para los frames */
+        /* Estilos adicionales para los frames y cards */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            margin: 10px; /* Margen general de 10 píxeles */
-            padding: 10px;
+            background-color: #f5f5f5;
+           
         }
 
         .menu-divider {
@@ -28,33 +27,31 @@
             border: 1px solid #F5F5F5;
             border-radius: 8px;
             padding: 10px;
-            padding-bottom: 70px;
+            margin-top: 40px;
             margin-bottom: 20px;
             background-color: #F5F5F5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .title-frame h1 {
             background-color: #F5F5F5; /* Nuevo color de fondo del título */
             padding: 0px;
-            border-radius: 20px;
-            padding-top: 50px;
+            border-radius: 0px;
+            margin-bottom: 20px;
             font-size: 5em; /* Tamaño de la fuente aumentado */
         }
-        .title-frame p {
-            color: #2C2C2C;
-            margin-bottom: 40px;
+
+        .title-frame p{
+            margin-bottom: 30px;
         }
 
         .frame {
             display: flex; /* Usar flexbox para alinear elementos */
-            justify-content: flex-start; /* Alinear al final del contenedor (derecha en este caso) */
-            align-items: flex-start; /* Alinear al inicio verticalmente */
-            border:transparent;
+            align-items: center; /* Alinear al inicio verticalmente */
+            justify-content: center;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
-            background-color: #fff;
+            background-color: #F5F5F5;
         }
 
         .frame h2 {
@@ -70,7 +67,8 @@
         .header {
             display: flex;
             justify-content: flex-end; /* Alinea los elementos al final del contenedor (derecha en este caso) */
-            margin-bottom: 0px; /* Espacio inferior */
+            margin-bottom: 20px; /* Espacio inferior */
+            margin: 0px;
         }
 
         .header button {
@@ -89,12 +87,11 @@
 
         .frame-header {
             text-align: right; /* Alineación del contenido a la derecha dentro del frame */
-            border: 1px solid #ffffff;
-            border-radius: 0x;
+            border-radius: 0px;
             padding: 20px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
             margin-bottom: 10px;
+            margin: 0px;
         }
 
         .frame-header h2 {
@@ -111,10 +108,10 @@
             margin-left: 10px;
             transition: background-color 0.3s ease;
         }
-        .frame-header .header-button-container button:hover {
-            margin-left: 10px;
-            background-color: #1C1C1C;
-            color: #F5F5F5;
+        .frame-header .header-button-container button:hover{
+            background-color: #000000;
+            color:#F5F5F5;
+
         }
 
         .frame-header .header-button-container button:nth-child(1),
@@ -149,87 +146,110 @@
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
 
+        /* Estilos específicos para las cards dentro del frame */
         .card {
-            margin-left: 320px;
-            background-color: #fff;
-            border: transparent;
-            border-radius: 8px;
-            padding: 20px;
-            width: 300px; /* Ajuste del ancho del card */
-            margin-right: 20px; /* Margen a la derecha del card */
-        }
-
-        .card h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #1C1C1C;
-        }
-
-        .card p {
-            margin-bottom: 20px;
-            color: #a0a0a0;
-        }
-
-        .card button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #2C2C2C;
-            color: #F5F5F5;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            cursor: pointer;
-            margin-top: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-left: 40px;
+            background-color: #fff;
+            width: 400px;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-top: 0px;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .card p{
+            color: dimgray;
+        }
+
+        .card2 {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-left: 40px;
+            background-color: #ffffff;
+            width: 400px;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card2 h2 {
+            margin-top: 20px;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .card2 p{
+            color:dimgray;
+            margin-bottom: 20px;
+        }
+        .card2 input{
+            border: #ccc;
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            padding: 10px;
+            padding-right: 160px;
+            font-size: 1.1em;
+            
+            
+        }
+        .card2 label{
+            font-size: 1.2em;
+            padding-bottom: 10px;
+            
+        }
+        .card2 button{
+            padding: 10px;
+            background-color: #1C1C1C;
+            color: #F5F5F5;
+            border-radius: 15px;
+            border: transparent;
             font-size: 1.2em;
             transition: background-color 0.3s ease;
         }
 
-        .card button:hover {
+        .card2 button:hover{
+            background-color: #000000;
+        }
+
+        .guardar-frame{
+            text-align: center;
+        }
+        .guardar-frame button{
+            padding: 15px;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .frame-desactivar{
+            text-align: center;
+        }
+        .frame-desactivar button{
+            padding: 15px;
+            border: transparent;
+            border-radius: 15px;
+            font-size: 1.1em;
             background-color: #1C1C1C;
-        }
-        .frame2 {
-            display: flex; /* Usar flexbox para alinear elementos */
-            justify-content: center; /* Alinear al inicio del contenedor */
-            align-items: center; /* Alinear al inicio verticalmente */
-            flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+            color: #F5F5F5;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
         }
 
-        .frame3 {
-            display: flex; /* Usar flexbox para alinear elementos */
-            justify-content: center; /* Alinear al inicio del contenedor */
-            align-items: center; /* Alinear al inicio verticalmente */
-            flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+        .frame-desactivar button:hover{
+            background-color: firebrick;
         }
 
-        .card2 {
-            display: block;
-            align-content:flex-end;
-            background-color: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 30px;
-            margin-right: 30px;
-            margin-bottom: 30px;
-            width: 325px; /* Ancho del card */
-            height: 291px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .card2 h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            width: fit-content;
-            color: #1C1C1C;
-            
-        }
-
-        .card2 p {
-            font-size: 1.3em;
-            margin-bottom: 10px;
-            color: #a0a0a0;
-        }
-        .card2 img{
-            width: 160px;
+        .message{
+            padding-top: 10px;
+            color:darkseagreen;
         }
     </style>
     
@@ -237,7 +257,7 @@
 <body>
     <div class="frame-header">
         <div class="header-button-container">
-            <button>Estaciones</button>
+            <button onclick="window.location.href='/'">Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
             <button onclick="window.location.href='/UserAccount/'">Mi cuenta</button>
@@ -249,57 +269,51 @@
     </div>
     <!-- Título en frame -->
     <div class="title-frame">
-        <h1>Detalle de lectura</h1>
+        <h1>Cuenta</h1>
+        <p>Hola {{ user.first_name}} {{ user.last_name}}, {{ user.email}}</p>
     </div>
-    <!-- Frame con card alineado a la derecha -->
+
+    <!-- Frame con dos cards -->
     <div class="frame">
-        <div class="card">
-            <h3>ID de Lectura: {{ lectura.id_lectura }}</h3>
-            <p>Lectura recibida: {{ lectura.hora }}</p>
-            <p>Estación: {{ lectura.estacion.nombre }}</p>
-            <button onclick="window.location.href='/dashboard/?estacion_id={{lectura.estacion.id_estacion}}'">Ver Detalles de la Estación</button>
+        <!-- Card de información personal -->
+        <div class="card2">
+            <h2>Información Personal</h2>
+            <p>Provee detalles personales y cómo podemos contactarte</p>
+            <form method="post"> <!-- Reemplaza con la URL correcta -->
+                {% csrf_token %}
+                <label for="id_first_name">Nombre:</label><br>
+                <input type="text" id="id_first_name" name="first_name" value="{{ user.first_name }}"><br><br>
+                
+                <label for="id_last_name">Apellido:</label><br>
+                <input type="text" id="id_last_name" name="last_name" value="{{ user.last_name }}"><br><br>
+                
+                <label for="id_email">Correo electrónico:</label><br>
+                <input type="email" id="id_email" name="email" value="{{ user.email }}"><br><br>
+                <div class = 'guardar-frame'>
+                    <button type="submit">Guardar Cambios</button>
+                    {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                                <div class="message">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class = 'frame-desactivar'>
+                        <button onclick="confirmDelete()">Desactivar cuenta</button>
+                    </div>
+                </div>
+            </form>
         </div>
+
+        <!-- Card de inicio de sesión y seguridad -->
     </div>
-    <div class="frame2">
-        <!-- Card para cada variable de Newlectura -->
-        <div class="card2">
-            <img src="../static/images/temp.png" alt="Temperatura">
-            <h2>Temperatura</h2>
-            <p>{{ lectura.temperatura }} Grados celsius</p>
-        </div>
+    <script>
+        function confirmDelete() {
+            if (confirm('¿Está seguro de que desea eliminar su cuenta permanentemente?')) {
+                window.location.href = '/eliminar_cuenta/';
+            }
+        }
+    </script>
 
-        <div class="card2">
-            <img src="../static/images/rain.png" alt="Humedad">
-            <h2>Humedad</h2>
-            <p>{{ lectura.humedad }} gramos por metro cubico</p>
-        </div>
-
-        <div class="card2">
-            <img src="../static/images/press.png" alt="presion_atmosferica">
-            <h2>Presión Atmosférica</h2>
-            <p>{{ lectura.presionatmosferica }} hectopascales</p>
-        </div>
-    <div class = "frame3">
-        <div class="card2">
-            <img src="../static/images/wind.png" alt="velocidad_del_viento">
-            <h2>Velocidad del Viento</h2>
-            <p>{{ lectura.velocidad_del_viento }} metros por segundo</p>
-        </div>
-
-        <div class="card2">
-            <img src="../static/images/direct.png" alt="direccion_del_viento">
-            <h2>Dirección del Viento</h2>
-            <p>{{ lectura.direccion_del_viento }}</p>
-        </div>
-
-        <div class="card2">
-            <img src="../static/images/rain.png" alt="Pluvialidad">
-            <h2>Pluvialidad</h2>
-            <p>{{ lectura.pluvialidad }} litros por metro cuadrado</p>
-        </div>
-    <div>
-
-
-    
 </body>
 </html>

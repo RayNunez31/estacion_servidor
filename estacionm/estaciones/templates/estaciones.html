@@ -109,7 +109,7 @@
             background-color: #2C2C2C; /* Nuevo color del botón */
             color: #F5F5F5;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 15px;
             font-size: 1.4em;
             
         }
@@ -264,6 +264,7 @@
             <button>Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
+            <button onclick="window.location.href='/UserAccount/'">Mi cuenta</button>
             <form action="/logout/" method="post" id="logout-form">
                 {% csrf_token %}
                 <button type="submit">Cerrar Sesión</button>

@@ -18,7 +18,7 @@
         .frame {
             background: #fff;
             padding: 40px;
-            padding-right: 70px;
+            padding-right: 90px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 300px;
@@ -124,11 +124,30 @@
         .frame-header .header-button-container button{
             margin-left: 5px;
             border-radius: 15px;
+            padding: 10px;
         }
         
+        
+
+        .frame-header button:nth-child(1),.frame-header button:nth-child(2),.frame-header button:nth-child(3){
+            background-color: #ffffff;
+            color: #1C1C1C;
+            transition: background-color 0.3s ease;
+        }
+
+        .frame-header button:nth-child(1){
+            background-color: #F5F5F5;
+        }
 
 
-    
+        .frame-header button:hover{
+            background-color: #000;
+            color: #F5F5F5;
+        }
+
+        .frame-header button{
+            padding: 10px;
+        }
 
         .frame-header .header-button-container a {
             margin-left: 10px;
@@ -151,7 +170,6 @@
             background-color: transparent; /* Fondo transparente */
             border: 2px solid transparent; /* Borde transparente */
             border-radius: 20px; /* Borde redondeado */
-            padding: 8px 16px; /* Ajuste de padding */
             cursor: pointer;
         }
 
@@ -171,15 +189,17 @@
         .frame-header .header-button-container a:hover {
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
-  
+        
+
     </style>
 </head>
 <body>
     <div class="frame-header">
         <div class="header-button-container">
-            <a href="/">Estaciones</a>
-            <a href="#">Recursos</a>
-            <a href="#">Contacto</a>
+            <button onclick="window.location.href='/'">Estaciones</button>
+            <button onclick="window.location.href='#'">Recursos</button>
+            <button onclick="window.location.href='#'">Contacto</button>
+            <button onclick="window.location.href='/UserAccount/'">Mi cuenta</button>
             <form action="/logout/" method="post" id="logout-form">
                 {% csrf_token %}
                 <button type="submit">Cerrar Sesión</button>

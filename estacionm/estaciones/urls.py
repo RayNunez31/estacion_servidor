@@ -16,5 +16,8 @@ urlpatterns = [
     path('administrar/', administrar_view, name='administrar'),
     path('administrar/agregar_sensor/', agregar_sensor_view, name = 'agregar_sensor'),
     path('', views.estaciones, name='estaciones'),
+    path('UserAccount/', views.user_account_view, name = 'UserAccount'),
+    path('eliminar_cuenta/', views.eliminar_cuenta, name='eliminar_cuenta'),
+
     
 ]

@@ -13,10 +13,40 @@ from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import EstacUpdateForm
-from django.urls import reverse
+from .forms import CustomUserCreationForm
 
 
 
+@login_required
+def eliminar_cuenta(request):
+    # Lógica para eliminar la cuenta del usuario actual
+    request.user.delete()  # Borra el usuario actual
+    
+    logout(request)  # Cierra la sesión del usuario
+    
+    return redirect('/login/')  # Redirige a la página de inicio de sesión
+
+@login_required
+def user_account_view(request):
+    # Obtenemos el usuario autenticado
+    user = request.user
+
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        messages.success(request, 'Los datos han sido actualizados exitosamente')
+        # Puedes agregar un mensaje de éxito aquí si lo deseas
+        return redirect('/UserAccount')
+    
+    
+    
+    context = {
+        'user': user  # Pasamos el objeto user a la plantilla
+    }
+    return render(request, 'user_account.html', context)
 
 def mediciones_list(request):
     datos = Lectura.objects.all().order_by('-hora')
@@ -41,13 +71,13 @@ def login_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('/')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 def logout_view(request):

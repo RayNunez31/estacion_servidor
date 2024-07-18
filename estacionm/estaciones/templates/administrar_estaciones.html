@@ -264,7 +264,10 @@
          .bottom-frame{
             margin: 40px;
          }
-         
+        
+         .delete-button{
+            transition: background-color 0.3s ease;
+         }
          .delete-button:hover {
             background-color: firebrick;
         }
@@ -316,6 +319,7 @@
             <button  onclick="window.location.href='/'">Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
+            <button onclick="window.location.href='/UserAccount/'">Mi cuenta</button>
             <form action="/logout/" method="post" id="logout-form">
                 {% csrf_token %}
                 <button type="submit">Cerrar Sesión</button>
@@ -369,8 +373,9 @@
     <div class="bottom-frame">
         <div class="sensor-frame">
             <h2>Equipos conectados a la estación</h2>
-            <button class="button-agregar" onclick="window.location.href='agregar_sensor/?estacion_id={{ estacion.id_estacion }}'">Agregar equipo</button>
             {% if sensores.all %}
+            <button class="button-agregar" onclick="window.location.href='agregar_sensor/?estacion_id={{ estacion.id_estacion }}'">Agregar equipo</button>
+
                 {% for sensor in sensores.all %}
                     <div class="card">
                         <h3>ID{{ sensor.id_sensor }} - {{ sensor.nombre }}</h3>
@@ -384,7 +389,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <p>No hay sensores asociados a esta estación.</p>
+                <p>No hay equipos asociados a esta estación.</p>
                 <button class="button-agregar" onclick="window.location.href='agregar_sensor/?estacion_id={{ estacion.id_estacion }}'">Agregar equipo</button>
             {% endif %}
             

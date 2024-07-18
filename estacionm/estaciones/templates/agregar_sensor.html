@@ -225,6 +225,7 @@
             <button>Estaciones</button>
             <button>Recursos</button>
             <button>Contacto</button>
+            <button onclick="window.location.href='/UserAccount/'">Mi cuenta</button>
             <form action="/logout/" method="post" id="logout-form">
                 {% csrf_token %}
                 <button type="submit">Cerrar Sesión</button>
