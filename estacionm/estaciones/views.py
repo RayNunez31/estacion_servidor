@@ -8,11 +8,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import EstacForm
+from .forms import EstacForm, SensorForm
 from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import EstacUpdateForm
+from django.urls import reverse
 
 
 
@@ -98,21 +99,62 @@ def administrar_view(request):
     estacion_id = request.GET.get('estacion_id')
     estacion = get_object_or_404(Estac, id_estacion=estacion_id)
     sensores_estacion = Sensor.objects.filter(estacion=estacion)
+    lecturas_estacion = Lectura.objects.filter(estacion=estacion)
     
     if request.method == 'POST':
-        form = EstacUpdateForm(request.POST, instance=estacion)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Los datos de la estación han sido actualizados correctamente.')
+        if 'delete' in request.POST:
+            # Eliminar lecturas relacionadas específicamente a esta estación
+            lecturas_estacion.delete()
+            # Eliminar sensores relacionados específicamente a esta estación
+            sensores_estacion.delete()
+            # Eliminar la estación
+            estacion.delete()
+            #messages.success(request, 'La estación y todas sus lecturas y sensores relacionados han sido eliminados exitosamente.')
+            return redirect('/')  # Actualiza esto con la vista a la que deseas redirigir
+        
+        elif 'delete-sensor' in request.POST:
+            sensor_id = request.POST.get('sensor_id')
+            sensor = get_object_or_404(Sensor, id_sensor=sensor_id)
+            sensor.delete()
+            #messages.success(request, 'El sensor ha sido eliminado exitosamente.')
+            return redirect('/')
+        else:
+            form = EstacUpdateForm(request.POST, instance=estacion)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Los datos de la estación han sido actualizados correctamente.')
     else:
         form = EstacUpdateForm(instance=estacion)
-
+ 
     context = {
         'estacion': estacion,
         'sensores': sensores_estacion,
         'form': form,
     }
     return render(request, 'administrar_estaciones.html', context)
+
+@login_required
+def agregar_sensor_view(request):
+    estacion_id = request.GET.get('estacion_id')
+
+    estacion = get_object_or_404(Estac, id_estacion=estacion_id)
+    if request.method == 'POST':
+        form = SensorForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Se ha agregado correctamente el sensor a la estacion')
+        sensor = form.save(commit=False)
+        sensor.estacion = estacion
+        sensor.save()
+            
+    else:
+        form = SensorForm()
+
+
+    context = {
+        'estacion': estacion,
+        'form': form,
+    }
+    return render(request, 'agregar_sensor.html', context)
 
 @login_required
 def dashboard_view(request):

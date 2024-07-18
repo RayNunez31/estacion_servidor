@@ -216,8 +216,11 @@
         }
 
         .frame-header .header-button-container button {
-            margin-left: 10px;
-            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+    
+        }
+        .frame-header .header-button-container button:hover {
+            color: #F5F5F5;
     
         }
       
@@ -226,7 +229,6 @@
         .frame-header .header-button-container button:nth-child(3),
         .frame-header .header-button-container button:nth-child(4) {
             background-color: transparent; /* Fondo transparente */
-            color: #000000; /* Color de texto */
             border: 2px solid transparent; /* Borde transparente */
             border-radius: 20px; /* Borde redondeado */
             padding: 8px 16px; /* Ajuste de padding */

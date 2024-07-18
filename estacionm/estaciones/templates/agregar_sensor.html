@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estaciones</title>
+    <!-- Integración de Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+
+    <style>
+        /* Estilos adicionales para los frames */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F5F5F5;
+            margin: 0px; /* Margen general de 10 píxeles */
+            padding: 0px;
+        }
+
+        .menu-divider {
+            border-top: 1px solid #eee; /* Color gris claro */
+            margin: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .title-frame {
+            text-align: center;
+            border: 1px solid #F5F5F5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
+        }
+
+        .title-frame h1{
+            font-size: 3em;
+        }
+
+        .frame {
+            display: flex; /* Usar flexbox para alinear elementos */
+            align-items: flex-start; /* Alinear al inicio verticalmente */
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .frame h2 {
+            font-size: 1.2em;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .frame p {
+            margin-bottom: 5px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end; /* Alinea los elementos al final del contenedor (derecha en este caso) */
+            margin-bottom: 20px; /* Espacio inferior */
+        }
+
+        .header button {
+            margin-left: 10px; /* Espacio entre botones */
+            padding: 8px 16px; /* Padding para los botones */
+            background-color: #2C2C2C; /* Color de fondo */
+            color: #F5F5F5; /* Color de texto */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #1C1C1C; /* Cambio de color al pasar el ratón */
+        }
+
+        .frame-header {
+            text-align: right; /* Alineación del contenido a la derecha dentro del frame */
+            border: 1px solid #ffffff;
+            border-radius: 0x;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            width:auto;
+        }
+
+        .frame-header h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .frame-header .header-button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .frame-header .header-button-container button {
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .frame-header .header-button-container button:hover {
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+            color: #F5F5F5;
+            background-color: #2C2C2C;
+        }
+
+        .frame-header .header-button-container button:nth-child(1),
+        .frame-header .header-button-container button:nth-child(2),
+        .frame-header .header-button-container button:nth-child(3),
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: transparent; /* Fondo transparente */
+            border: 2px solid transparent; /* Borde transparente */
+            border-radius: 20px; /* Borde redondeado */
+            padding: 8px 16px; /* Ajuste de padding */
+            cursor: pointer;
+        }
+
+        .frame-header .header-button-container button:nth-child(1) {
+            background-color: #F5F5F5; /* Color para "Estaciones" */
+        }
+
+        .frame-header .header-button-container button:nth-child(2) {
+            background-color: #FFFFFF; /* Color para "Recursos" */
+        }
+
+        .frame-header .header-button-container button:nth-child(3) {
+            background-color: #FFFFFF; /* Color para "Contacto" */
+        }
+
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: #2C2C2C; /* Color para "Cerrar Sesión" */
+            color: #FFFFFF; /* Cambio de color de texto para "Cerrar Sesión" */
+        }
+
+        .frame-header .header-button-container button:hover {
+            background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
+        }
+
+        /* Estilos para el formulario de agregar sensor */
+        .sensor-form {
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .sensor-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .sensor-form input,
+        .sensor-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .sensor-form button {
+            padding: 10px 20px;
+            background-color: #2C2C2C;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .sensor-form button:hover {
+            background-color: #1C1C1C;
+        }
+        .frame{
+            display: flex;
+            justify-content: center;
+            background-color: #F5F5F5;
+            border: transparent;
+        }
+        .sensor-form{
+            font-size: 1.2em;
+            padding-right: 40px;
+            text-align: left;
+        }
+        .miniframe{
+            text-align: center;
+        }
+        .miniframe button{
+            transition: background-color 0.3s ease;
+            border-radius: 15px;
+            font-size: 1em;
+        }
+
+        .miniframe button:hover{
+            background-color: #1C1C1C;
+        }
+
+        .volver-frame{
+            padding: 10px;
+            
+        }
+        .volver{
+            margin: 30px;
+            font-size: 1.6em;
+            border: transparent;
+            padding: 20px;
+            border-radius: 15px;
+            color: #F5F5F5;
+            background-color: #1C1C1C;
+            transition: background-color 0.3s ease;
+        }
+        .volver:hover{
+            background-color: #000;
+        }
+
+    </style>
+    <div class="frame-header">
+        <div class="header-button-container">
+            <button>Estaciones</button>
+            <button>Recursos</button>
+            <button>Contacto</button>
+            <form action="/logout/" method="post" id="logout-form">
+                {% csrf_token %}
+                <button type="submit">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+</head>
+<body>
+    
+    <div class = 'volver-frame'>
+        <button class = 'volver' onclick="window.location.href='/administrar/?estacion_id={{ estacion.id_estacion }}'">Volver a la estacion</button>
+    </div>
+    <div class="title-frame">
+        
+        <h1>Agregar sensor</h1>
+         <!-- Formulario para agregar sensor -->
+    <div class="frame">
+        <div class="sensor-form">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.errors %}
+                        <ul>
+                            {% for error in field.errors %}
+                                <li style="color: red;">{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class = 'miniframe'>
+                    <button type="submit">Completar</button>
+                </div>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li style="color: rgb(39, 75, 45);">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href='/administrar/?estacion_id={{ estacion.id_estacion }}';
+        }
+    </script>
+   
+</body>
+</html>
