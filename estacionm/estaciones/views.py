@@ -14,6 +14,8 @@ from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import EstacUpdateForm
 from .forms import CustomUserCreationForm
+from datetime import datetime
+from django.db.models import Q
 
 
 
@@ -224,41 +226,37 @@ def lectura_detalle(request):
 @login_required
 def registro_lectura_view(request):
     estacion_id = request.GET.get('estacion_id')
-    
-    
-    # Cargar datos de la estación usando estacion_id
+    query = request.GET.get('q', '')
     estacion = get_object_or_404(Estac, id_estacion=estacion_id)
-    
-    # Obtener las lecturas asociadas a esta estación
-    lecturas_estacion = Lectura.objects.filter(estacion=estacion) 
 
-    # Ordenamiento por hora (por defecto ascendente)
-    sort = request.GET.get('sort', 'asc')
-    if sort == 'desc':
-        lecturas_estacion = lecturas_estacion.order_by('-hora')
+    if estacion_id:
+        lecturas = Lectura.objects.filter(estacion=estacion)
+        if query:
+            try:
+                # Convertir el formato de la consulta en un objeto datetime
+                fecha_hora = datetime.fromisoformat(query)
+                fecha = fecha_hora.date()
+                hora = fecha_hora.time()
+                
+                # Filtrar por fecha y hora
+                lecturas = lecturas.filter(
+                    Q(hora__date=fecha) & 
+                    Q(hora__time__hour=hora.hour) & 
+                    Q(hora__time__minute=hora.minute)
+                )
+            except ValueError:
+                # Manejar el caso donde el formato de la fecha y hora es incorrecto
+                lecturas = Lectura.objects.none()
     else:
-        lecturas_estacion = lecturas_estacion.order_by('hora')
+        lecturas = Lectura.objects.none()
 
-    # Búsqueda por fecha
-    query = request.GET.get('q')
-    if query:
-        query_date = parse_date(query)
-        if query_date:
-            lecturas_estacion = lecturas_estacion.filter(hora__date=query_date)
-
-    # Paginación
-    paginator = Paginator(lecturas_estacion, 10)  # 10 items por página
+    paginator = Paginator(lecturas, 10)  # Mostrar 10 lecturas por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Pasar 'estacion' y 'lecturas' al contexto de renderizado de tu plantilla de dashboard
     context = {
-        'estacion': estacion,
-        'lecturas': lecturas_estacion,
         'page_obj': page_obj,
-        'sort': sort,
         'query': query,
+        'estacion': estacion,  # Reemplaza con los datos reales de la estación
     }
-    
     return render(request, 'registro_lectura.html', context)
-

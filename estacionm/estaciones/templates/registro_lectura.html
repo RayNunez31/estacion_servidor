@@ -7,7 +7,6 @@
     <!-- Integración de Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 
-
     <style>
         /* Estilos adicionales para los frames */
         body {
@@ -59,8 +58,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        
-
         .frame h2 {
             font-size: 1.2em;
             padding-bottom: 5px;
@@ -71,9 +68,7 @@
         .frame p {
             margin-bottom: 5px;
             margin-left: 10px;
-
         }
-
 
         .header {
             display: flex;
@@ -119,16 +114,13 @@
             margin-left: 10px;
             color: #1C1C1C;
             transition: background-color 0.3s ease;
-    
         }
 
         .header-button-container button:hover {
             color: #F5F5F5;
             background-color: #1C1C1C;
-    
         }
-      
-      
+
         .frame-header .header-button-container button:nth-child(1),
         .frame-header .header-button-container button:nth-child(2),
         .frame-header .header-button-container button:nth-child(3),
@@ -160,13 +152,13 @@
         .frame-header .header-button-container button:hover {
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
-        /* Estilo para la sección de búsqueda y ordenamiento */
+
         .search-sort {
             margin: 40px 0; /* Margen de 40 píxeles arriba y abajo */
             display: flex;
             justify-content: space-between;
         }
-        
+
         .frame .frame-text .card-button{
             padding: 15px;
             background-color: #1C1C1C;
@@ -176,6 +168,7 @@
             font-size: 1.2em;
             transition: background-color 0.3s ease;
         }
+
         .frame .frame-text .card-button:hover{
             padding: 15px;
             background-color: #000;
@@ -186,45 +179,11 @@
             cursor: pointer;
         }
 
-
-        /* Estilo para la barra de búsqueda */
-        .search-sort input[type="text"] {
-            width: 400px; /* Ancho de la barra de búsqueda aumentado */
-            border-radius: 20px; /* Borde redondeado */
-            border: 1px solid #D9D9D9; /* Borde color D9D9D9 */
-            padding: 10px;
-            color: #B3B3B3; /* Color del texto interior */
-            background-color: #ffffff; /* Fondo de la barra de búsqueda */
-            outline: none; /* Sin contorno al enfocar */
-            margin-left: 35px;
-        }
-
-        /* Estilo para los botones de ordenamiento */
-        .search-sort .sort-buttons {
-            text-align: right; /* Alinear los botones a la derecha */
-        }
-
-        .search-sort .sort-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .search-sort .sort-button.active {
-            background-color: #2C2C2C; /* Color de fondo activo */
-            color: #F5F5F5; /* Color de texto activo */
-        }
-
-        .search-sort .sort-button.inactive {
-            background-color: #E3E3E3; /* Color de fondo inactivo */
-            color: #000; /* Color de texto inactivo */
-        }
         .pagination {
             margin-top: 20px;
             text-align: center; /* Centrar la paginación */
         }
+
         .frame img {
             margin-right: 20px;
             width: 80px; /* Ajusta según el tamaño de tu imagen */
@@ -235,8 +194,38 @@
             margin-top: 30px;
             margin-left: 10px;
         }
+
+        .search-sort input{
+            padding: 10px;
+            border: transparent;
+            border-radius: 15px;
+            background-color: #F5F5F5;
+            margin-left: 40px;
+            font-size: 1.5em;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-sort input:hover{
+            cursor: pointer;
+            background-color:#eee;
+        }
+
+        .search-sort button{
+            border-radius: 20px;
+            padding: 10px;
+            border: transparent;
+            background-color: #1C1C1C;
+            color: #F5F5F5;
+            font-size: 1em;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-sort button:hover{
+            background-color: #000;
+            cursor: pointer;
+        }
     </style>
-    
 </head>
 <body>
     <div class="frame-header">
@@ -257,49 +246,49 @@
         <p>Lecturas para la estacion ID{{ estacion.id_estacion }} - {{ estacion.nombre }}</p>
     </div>
 
-    <!-- Búsqueda y ordenamiento -->
-    <form method="GET" class="search-sort">
-        <input type="text" name="q" placeholder="Buscar por fecha (YYYY-MM-DD)" value="">
-        <div class="sort-buttons">
-            <button type="submit" name="sort" value="asc" class="sort-button {% if sort == 'asc' %}active{% else %}inactive{% endif %}">Ascendente</button>
-            <button type="submit" name="sort" value="desc" class="sort-button {% if sort == 'desc' %}active{% else %}inactive{% endif %}">Descendente</button>
-        </div>
-    </form>
-     <!-- Frames de Estaciones -->
-     {% for lecturas in page_obj %}
-     <div class="frame">
-        <div class = innter>
+    <!-- Barra de búsqueda -->
+    <div class="search-sort">
+        <form method="GET">
+            <input type="hidden" name="estacion_id" value="{{ estacion.id_estacion }}">
+            <input type="datetime-local" name="q" value="{{ query }}" placeholder="Selecciona fecha y hora">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Frames de Estaciones -->
+    {% for lecturas in page_obj %}
+    <div class="frame">
+        <div class="innter">
             <img src="../static/images/lect.png" alt="Imagen de la lectura">
         </div>
-         <div class="frame-text">
-             <h2>ID{{ lecturas.id_lectura }} </h2>
-             <p class="frame-text-content">Lectura recibida: {{ lecturas.hora }}</p>
-             <br>
-             <!-- Modificado el enlace del botón "Administrar" -->
-             <button class="card-button" onclick="window.location.href='/lectura_detalle/?lectura_id={{ lecturas.id_lectura }}'">Ver detalles</button>
-             <br>
-         </div>
-     </div>
-     {% endfor %}
+        <div class="frame-text">
+            <h2>ID{{ lecturas.id_lectura }} </h2>
+            <p class="frame-text-content">Lectura recibida: {{ lecturas.hora }}</p>
+            <br>
+            <!-- Modificado el enlace del botón "Administrar" -->
+            <button class="card-button" onclick="window.location.href='/lectura_detalle/?lectura_id={{ lecturas.id_lectura }}'">Ver detalles</button>
+            <br>
+        </div>
+    </div>
+    {% endfor %}
 
- 
-     <!-- Paginación -->
-     <div class="pagination">
-         <span class="step-links">
-             {% if page_obj.has_previous %}
-                 <a href="?page=1">&laquo; Primero</a>
-                 <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-             {% endif %}
- 
-             <span class="current">
-                 Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-             </span>
- 
-             {% if page_obj.has_next %}
-                 <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                 <a href="?page={{ page_obj.paginator.num_pages }}">Último &raquo;</a>
-             {% endif %}
-         </span>
-     </div>
+    <!-- Paginación -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?estacion_id={{ estacion.id_estacion }}&page=1">&laquo; primero</a>
+                <a href="?estacion_id={{ estacion.id_estacion }}&page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?estacion_id={{ estacion.id_estacion }}&page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?estacion_id={{ estacion.id_estacion }}&page={{ page_obj.paginator.num_pages }}">último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    
 </body>
 </html>
