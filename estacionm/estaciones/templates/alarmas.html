@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estaciones</title>
+    <!-- Integración de Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+
+    <style>
+        /* Estilos adicionales para los frames */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            margin: 10px; /* Margen general de 10 píxeles */
+            padding: 10px;
+        }
+
+        .menu-divider {
+            border-top: 1px solid #eee; /* Color gris claro */
+            margin: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .title-frame {
+            text-align: center;
+            align-content: left;
+            border: 1px solid #F5F5F5;
+            border-radius: 8px;
+            padding: 10px;
+            padding-bottom: 100px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-frame h1 {
+            background-color: #F5F5F5; /* Nuevo color de fondo del título */
+            margin-bottom: 10px;
+            border-radius: 20px;
+            font-size: 5em; /* Tamaño de la fuente aumentado */
+        }
+
+        .title-frame p {
+            font-size: 1.2em;
+            color: #ccc;
+        }
+
+        .frame {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin: 40px;
+            background-color: #fff;
+        }
+
+        .inframe{
+            width: 650px;
+            height: 700px;
+        }
+
+        .frame input{
+            border-radius: 10px;
+            border-color: #ccc;
+            color: #ccc;
+
+        }
+
+        .frame textarea{
+            width: 100px;
+            border-radius: 15px;
+            border-color: #ccc;
+        }
+
+        .frame h2 {
+            font-size: 1.2em;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .frame p {
+            margin-bottom: 5px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end; /* Alinea los elementos al final del contenedor (derecha en este caso) */
+            margin-bottom: 0px; /* Espacio inferior */
+        }
+
+        .header button {
+            margin-left: 10px; /* Espacio entre botones */
+            padding: 8px 16px; /* Padding para los botones */
+            background-color: #2C2C2C; /* Color de fondo */
+            color: #F5F5F5; /* Color de texto */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #1C1C1C; /* Cambio de color al pasar el ratón */
+        }
+
+        .frame-header {
+            text-align: right; /* Alineación del contenido a la derecha dentro del frame */
+            border: 1px solid #ffffff;
+            border-radius: 0x;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .frame-header h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .frame-header .header-button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .frame-header .header-button-container button {
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+    
+        }
+        .frame-header .header-button-container button:hover {
+            margin-left: 10px;
+            background-color: #1C1C1C;
+            color: #F5F5F5;
+    
+        }
+      
+        .frame-header .header-button-container button:nth-child(1),
+        .frame-header .header-button-container button:nth-child(2),
+        .frame-header .header-button-container button:nth-child(3),
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: transparent; /* Fondo transparente */
+            border: 2px solid transparent; /* Borde transparente */
+            border-radius: 20px; /* Borde redondeado */
+            padding: 8px 16px; /* Ajuste de padding */
+            cursor: pointer;
+        }
+
+        .frame-header .header-button-container button:nth-child(1) {
+            background-color: #F5F5F5; /* Color para "Estaciones" */
+        }
+
+        .frame-header .header-button-container button:nth-child(2) {
+            background-color: #FFFFFF; /* Color para "Recursos" */
+        }
+
+        .frame-header .header-button-container button:nth-child(3) {
+            background-color: #FFFFFF; /* Color para "Contacto" */
+        }
+
+        .frame-header .header-button-container button:nth-child(4) {
+            background-color: #2C2C2C; /* Color para "Cerrar Sesión" */
+            color: #FFFFFF; /* Cambio de color de texto para "Cerrar Sesión" */
+        }
+
+        .frame-header .header-button-container button:hover {
+            background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #2C2C2C;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #1C1C1C;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+        }
+
+        .slider-container output {
+            margin-left: 10px;
+            width: 60px;
+            text-align: center;
+        }
+
+                /* Estilos para los sliders */
+        .slider-container input[type="range"] {
+            -webkit-appearance: none; /* Elimina el estilo por defecto del slider en Webkit (Chrome, Safari) */
+            background-color: #eee; /* Color de fondo de la pista del slider */
+            height: 2px; /* Altura de la pista del slider */
+            outline: none; /* Elimina el contorno del slider */
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Elimina el estilo por defecto del thumb en Webkit */
+            background-color: #000; /* Color de la bola del slider */
+            border-radius: 50%; /* Hace la bola del slider circular */
+            width: 20px; /* Ancho de la bola del slider */
+            height: 20px; /* Alto de la bola del slider */
+            cursor: pointer; /* Cambia el cursor al pasar sobre la bola del slider */
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            background-color: #000; /* Color de la bola del slider en Firefox */
+            border-radius: 50%; /* Hace la bola del slider circular */
+            width: 20px; /* Ancho de la bola del slider */
+            height: 10px; /* Alto de la bola del slider */
+            cursor: pointer; /* Cambia el cursor al pasar sobre la bola del slider */
+        }
+
+        .slider-container input[type="range"]::-ms-thumb {
+            background-color: #000; /* Color de la bola del slider en Internet Explorer */
+            border-radius: 50%; /* Hace la bola del slider circular */
+            width: 20px; /* Ancho de la bola del slider */
+            height: 20px; /* Alto de la bola del slider */
+            cursor: pointer; /* Cambia el cursor al pasar sobre la bola del slider */
+        }
+
+        .slider-container input[type="range"]::-ms-track {
+            background-color: transparent; /* Fondo transparente para IE */
+            border-color: transparent; /* Color del borde transparente para IE */
+            color: transparent; /* Color del texto transparente para IE */
+        }
+
+        .button-frame{
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .button-frame button{
+            
+            padding: 10px;
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+
+        .button-frame button{
+            background-color: #1C1C1C;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-frame button:hover{
+            background-color: #000;
+        }
+
+        .frame{
+            margin-top: 60px;
+        }
+          /* Estilos para paginación */
+          .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            background-color: #F5F5F5;
+            color: #000;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+        .pagination .current {
+            background-color: #2C2C2C;
+            color: #fff;
+            border: 1px solid #2C2C2C;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <div class="frame-header">
+        <div class="header-button-container">
+            <button onclick="window.location.href='/'">Estaciones</button>
+            <button>Recursos</button>
+            <button>Contacto</button>
+            <form action="/logout/" method="post" id="logout-form">
+                {% csrf_token %}
+                <button type="submit">Cerrar Sesión</button>
+            </form>
+        </div>
+    </div>
+    <!-- Título en frame -->
+    <div class="title-frame">
+        <h1>Alarmas</h1>
+        <p>ID{{ estacion.id_estacion }} - {{ estacion.nombre }}</p>
+    </div>
+
+    <!-- Formulario para crear una nueva alarma -->
+    <div class="frame">
+        <div class="inframe">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la alarma" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="7" placeholder="La sección de alarmas es una aplicación para el manejo de estaciones meterológicas es crucial para garantizar que los usuarios sean notificados de manera oportuna sobre cualquier condición anómala o preligrosa detectada por las estaciones"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="temperatura">Temperatura (°C)</label>
+                    <div class="slider-container">
+                        <input type="range" id="temperatura" name="temperatura" min="-20" max="50" step="0.01" oninput="this.nextElementSibling.value = this.value">
+                        <output>0.00</output>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="humedad">Humedad (g/m³)</label>
+                    <div class="slider-container">
+                        <input type="range" id="humedad" name="humedad" min="5" max="30" step="0.01" oninput="this.nextElementSibling.value = this.value">
+                        <output>0.00</output>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="presionatmosferica">Presión Atmosférica (hPa)</label>
+                    <div class="slider-container">
+                        <input type="range" id="presionatmosferica" name="presionatmosferica" min="980" max="1050" step="0.01" oninput="this.nextElementSibling.value = this.value">
+                        <output>0.00</output>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="velocidad_del_viento">Velocidad del Viento (km/h)</label>
+                    <div class="slider-container">
+                        <input type="range" id="velocidad_del_viento" name="velocidad_del_viento" min="0" max="60" step="0.01" oninput="this.nextElementSibling.value = this.value">
+                        <output>0.00</output>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pluvialidad">Pluvialidad (mm/h)</label>
+                    <div class="slider-container">
+                        <input type="range" id="pluvialidad" name="pluvialidad" min="0" max="150" step="0.01" oninput="this.nextElementSibling.value = this.value">
+                        <output>0.00</output>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="button-frame">
+                        <button type="submit" onclick="window.location.href='/alarmas/?estacion_id={{ estacion.id_estacion }}'">Agregar alarma</button>
+                    </div>
+                </div>
+            </form>
+        </div>    
+    </div>
+    <div class="card-frame">
+        <div class="card-inframe">
+            {% if alarmas %}
+                {% for alarma in alarmas %}
+                    <div class="alarm-card">
+                        <h3>{{ alarma.nombre }}</h3>
+                        <p>{{ alarma.descripcion }}</p>
+                        <div class="card-actions">
+                            <a href="#" class="btn btn-primary">Editar</a>
+                            <a href="#" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta alarma?');">Eliminar</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-alarms">
+                    <p>No hay alarmas configuradas.</p>
+                </div>
+            {% endif %}
+
+            <!-- Paginación -->
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; Primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+                <span class="current">{{ page_obj.number }}</span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

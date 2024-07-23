@@ -12,6 +12,31 @@ class Estac(models.Model):
         managed = False
         db_table = 'estac'
 
+class Alarmas(models.Model):
+    id_alarma = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.CharField(max_length=200, blank=True, null=True)
+    temperatura = models.FloatField(blank=True, null=True)
+    humedad = models.FloatField(blank=True, null=True)
+    presionatmosferica = models.FloatField(blank=True, null=True)
+    velocidad_del_viento = models.FloatField(blank=True, null=True)
+    direccion_del_viento = models.FloatField(blank=True, null=True)
+    pluvialidad = models.FloatField(blank=True, null=True)
+    estacion = models.ForeignKey('Estac', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'alarmas'
+        
+class Notificaciones(models.Model):
+    id_notificacion = models.AutoField(primary_key=True)
+    mensaje = models.TextField()
+    fecha = models.DateTimeField(blank=True, null=True)
+    alarma = models.ForeignKey(Alarmas, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'notificaciones'
 
 class Newlectura(models.Model):
     id_lectura = models.AutoField(primary_key=True)
