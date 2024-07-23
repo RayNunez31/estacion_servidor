@@ -3,12 +3,14 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from estaciones.models import Newlectura as Lectura  # Ajusta el nombre del modelo según tu aplicación
 from estaciones.models import Estac
 from estaciones.models import Sensor
+from estaciones.models import Alarmas
+from estaciones.models import Notificaciones
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import EstacForm, SensorForm
+from .forms import AlarmaForm, EstacForm, SensorForm
 from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.exceptions import ObjectDoesNotExist
@@ -222,6 +224,41 @@ def lectura_detalle(request):
         'lectura':lectura,
     }
     return render(request, 'lectura_detalle.html', context)
+
+@login_required
+def alarmas_view(request):
+    estacion_id = request.GET.get('estacion_id')
+    estacion = get_object_or_404(Estac, id_estacion=estacion_id)
+    alarmas = Alarmas.objects.filter(estacion=estacion)
+
+    paginator = Paginator(alarmas, 10)  # Muestra 10 alarmas por página
+    
+    # Obtén el número de página actual desde los parámetros de la solicitud
+    page_number = request.GET.get('page')
+    
+    # Obtén el objeto de la página actual
+    page_obj = paginator.get_page(page_number)
+    
+    # Pasa las alarmas y el objeto de la página al contexto del template
+
+    if request.method == 'POST':
+        form = AlarmaForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Se ha agregado correctamente la alarma a la estacion')
+        alarma = form.save(commit=False)
+        alarma.estacion = estacion
+        alarma.save()            
+    else:
+        form = AlarmaForm()
+
+
+
+    context = {
+        'alarmas': page_obj.object_list,
+        'page_obj': page_obj,
+        'estacion': estacion,  # Reemplaza con los datos reales de la estación
+    }
+    return render(request, 'alarmas.html', context)
 
 @login_required
 def registro_lectura_view(request):

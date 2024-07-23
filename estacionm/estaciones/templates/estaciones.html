@@ -255,6 +255,36 @@
         .frame-header .header-button-container button:hover {
             background-color: #1C1C1C; /* Color de fondo al pasar el ratón */
         }
+
+              /* Estilos para paginación */
+              .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            background-color: #F5F5F5;
+            color: #000;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+        .pagination .current {
+            background-color: #2C2C2C;
+            color: #fff;
+            border: 1px solid #2C2C2C;
+        }
+        
     </style>
     
 </head>

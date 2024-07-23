@@ -1,5 +1,5 @@
 from django import forms
-from .models import Estac, Sensor
+from .models import Estac, Sensor, Alarmas
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -66,5 +66,28 @@ class SensorForm(forms.ModelForm):
         # Validación para asegurarse de que nombre no esté duplicado para la misma estación
         if Sensor.objects.filter(nombre=nombre, estacion=estacion).exists():
             raise forms.ValidationError("Ya existe un sensor con este nombre para esta estación.")
+
+        return nombre
+    
+class AlarmaForm(forms.ModelForm):
+    class Meta:
+        model = Alarmas
+        fields = ['nombre', 'descripcion', 'temperatura', 'humedad', 'presionatmosferica', 'velocidad_del_viento', 'pluvialidad']
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 5}),
+            'temperatura': forms.NumberInput(attrs={'min': -20, 'max': 50, 'step': 0.01}),
+            'humedad': forms.NumberInput(attrs={'min': 5, 'max': 30, 'step': 0.01}),
+            'presionatmosferica': forms.NumberInput(attrs={'min': 980, 'max': 1050, 'step': 0.01}),
+            'velocidad_del_viento': forms.NumberInput(attrs={'min': 0, 'max': 60, 'step': 0.01}),
+            'pluvialidad': forms.NumberInput(attrs={'min': 0, 'max': 150, 'step': 0.01}),
+        }
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data.get('nombre')
+        estacion = self.cleaned_data.get('estacion')
+
+        # Validación para asegurarse de que nombre no esté duplicado para la misma estación
+        if Alarmas.objects.filter(nombre=nombre, estacion=estacion).exists():
+            raise forms.ValidationError("Ya existe una alarma con este nombre para esta estación.")
 
         return nombre
