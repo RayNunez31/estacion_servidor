@@ -42,7 +42,7 @@
             font-size: 5em; /* Tamaño de la fuente aumentado */
         }
         .title-frame p{
-            color: #2C2C2C;
+            color: #bbb;
             margin-bottom: 40px;
         }
 
@@ -157,6 +157,10 @@
             margin: 40px 0; /* Margen de 40 píxeles arriba y abajo */
             display: flex;
             justify-content: space-between;
+            color: #ccc;
+        }
+        .search-sort input{
+            color: #ccc;
         }
 
         .frame .frame-text .card-button{
@@ -185,8 +189,8 @@
         }
 
         .frame img {
-            margin-right: 20px;
-            width: 80px; /* Ajusta según el tamaño de tu imagen */
+            margin-right: 10px;
+            width: 150px; /* Ajusta según el tamaño de tu imagen */
             height: auto;
         }
 
@@ -289,7 +293,7 @@
     {% for lecturas in page_obj %}
     <div class="frame">
         <div class="innter">
-            <img src="../static/images/lect.png" alt="Imagen de la lectura">
+            <img src="../../static/images/lect2.png" alt="Imagen de la lectura">
         </div>
         <div class="frame-text">
             <h2>ID{{ lecturas.id_lectura }} </h2>

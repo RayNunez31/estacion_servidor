@@ -88,7 +88,7 @@ def logout_view(request):
     logout(request)
     return redirect('/login/')
 
-@login_required
+# @login_required
 def estaciones(request):
     estaciones_list = Estac.objects.all()
 
@@ -190,7 +190,7 @@ def agregar_sensor_view(request):
     }
     return render(request, 'agregar_sensor.html', context)
 
-@login_required
+#@login_required
 def dashboard_view(request):
     estacion_id = request.GET.get('estacion_id')
     
@@ -231,32 +231,30 @@ def alarmas_view(request):
     estacion = get_object_or_404(Estac, id_estacion=estacion_id)
     alarmas = Alarmas.objects.filter(estacion=estacion)
 
-    paginator = Paginator(alarmas, 10)  # Muestra 10 alarmas por página
-    
-    # Obtén el número de página actual desde los parámetros de la solicitud
+    paginator = Paginator(alarmas, 4)  # Muestra 10 alarmas por página
     page_number = request.GET.get('page')
-    
-    # Obtén el objeto de la página actual
     page_obj = paginator.get_page(page_number)
-    
-    # Pasa las alarmas y el objeto de la página al contexto del template
 
     if request.method == 'POST':
-        form = AlarmaForm(request.POST)
-        if form.is_valid():
-            messages.success(request, 'Se ha agregado correctamente la alarma a la estacion')
-        alarma = form.save(commit=False)
-        alarma.estacion = estacion
-        alarma.save()            
+        if 'save' in request.POST:
+            form = AlarmaForm(request.POST)
+            if form.is_valid():
+                messages.success(request, 'Se ha agregado correctamente la alarma a la estación')
+                alarma = form.save(commit=False)
+                alarma.estacion = estacion
+                alarma.save()
+        elif 'delete-alarm' in request.POST:
+            alarma_id = request.POST.get('alarma_id')
+            alarma = get_object_or_404(Alarmas, id_alarma=alarma_id)  # Ajustar a tu modelo de Alarma
+            alarma.delete()
+
     else:
         form = AlarmaForm()
-
-
 
     context = {
         'alarmas': page_obj.object_list,
         'page_obj': page_obj,
-        'estacion': estacion,  # Reemplaza con los datos reales de la estación
+        'estacion': estacion,
     }
     return render(request, 'alarmas.html', context)
 

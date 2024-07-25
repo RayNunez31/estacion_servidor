@@ -42,6 +42,8 @@
         }
 
         .frame {
+            display: flex;
+            justify-content: flex-start;
             border: 1px solid #ccc;
             border-radius: 15px;
             padding: 20px;
@@ -194,14 +196,7 @@
             color: #F5F5F5;
         }
 
-        .frame img {
-            position: absolute;
-            top: 370px; /* Ajusta la posición vertical según sea necesario */
-            right: 170px; /* Ajusta la posición horizontal según sea necesario */
-            width: 450px; /* Ajusta el tamaño de la imagen */
-            height: auto; /* Mantiene la proporción de la imagen */
-            border-radius: 10px; /* Bordes redondeados para la imagen */
-        }
+       
 
         .communication-status-frame {
             border-radius: 15px;
@@ -271,6 +266,15 @@
             font-size: 0.9em;
             color: #757575;
         }
+        .frame :nth-child(2){
+            display: flex;
+        }
+        .frame-img{
+            display: flex;
+            justify-content: flex-end;
+        }
+ 
+
     </style>
 </head>
 <body>
@@ -292,35 +296,39 @@
         <!-- Contenedor para los datos de la última lectura -->
         <hr class="menu-divider">
         <div class="frame">
-            {% if ultima_lectura != None %}
-                <h2>Temperatura</h2>
-                <p>La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
-                <h2>Humedad</h2>
-                <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
-                <h2>Presión Atmosférica</h2>
-                <p>La presión atmosférica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
-                <h2>Velocidad del Viento</h2>
-                <p>La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
-                <h2>Dirección del Viento</h2>
-                <p>La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
-                <h2>Pluvialidad</h2>
-                <p>Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
-                {% else %}
+            <div>
+                {% if ultima_lectura != None %}
                     <h2>Temperatura</h2>
-                    <p>-</p>
-                    <h2>Humedad</h2>
-                    <p>-</p>
+                    <p id="temperatura">La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
+                    <h2 id="humedad" >Humedad</h2>
+                    <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
                     <h2>Presión Atmosférica</h2>
-                    <p>-</p>
+                    <p id="presionatmosferica">La presión atmosférica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
                     <h2>Velocidad del Viento</h2>
-                    <p>-</p>
+                    <p id="velocidad_del_viento" >La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
                     <h2>Dirección del Viento</h2>
-                    <p>-</p>
+                    <p id="velocidad_del_viento" >La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
                     <h2>Pluvialidad</h2>
-                    <p>-</p>
-                {% endif %}
-            <!-- Imagen alineada a la derecha -->
-            <img src="../static/images/sunny.png" alt="Clima es soleado">
+                    <p id="pluvialidad">Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
+                    {% else %}
+                        <h2>Temperatura</h2>
+                        <p>-</p>
+                        <h2>Humedad</h2>
+                        <p>-</p>
+                        <h2>Presión Atmosférica</h2>
+                        <p>-</p>
+                        <h2>Velocidad del Viento</h2>
+                        <p>-</p>
+                        <h2>Dirección del Viento</h2>
+                        <p>-</p>
+                        <h2>Pluvialidad</h2>
+                        <p>-</p>
+                    {% endif %}
+            </div>
+            <div class="frame-img">
+                <!-- Imagen alineada a la derecha -->
+                <img src="../static/images/sunny.png" alt="Clima es soleado">
+            </div>
         </div>
         <hr class="menu-divider">
         <!-- Segundo set de botones -->
@@ -359,4 +367,27 @@
     </div>
 
 </body>
+
+<script>
+    const estacionId = "{{ estacion.id_estacion }}";
+    const ws = new WebSocket('ws://' + window.location.host + `/dashboard/?estacion=${estacionId}`);
+
+
+    ws.onmessage = function(event) {
+        const data = JSON.parse(e.data);
+        const message = JSON.parse(data.message);
+
+        document.getElementById('temperatura').innerText = message.temperatura + ' °C';
+        document.getElementById('humedad').innerText = message.humedad + '%';
+        document.getElementById('presionatmosferica').innerText = message.presionatmosferica + ' hPa';
+        document.getElementById('velocidad_del_viento').innerText = message.velocidad_del_viento + ' m/s';
+        document.getElementById('direccion_del_viento').innerText = message.direccion_del_viento + ' °';
+        document.getElementById('pluvialidad').innerText = message.pluvialidad + ' mm';
+    };
+
+    ws.onclose = function(event) {
+        console.error('WebSocket no pudo conectarse efectivamente');
+    };
+</script>
+
 </html>

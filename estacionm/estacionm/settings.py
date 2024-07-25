@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-ry^v6gt9)ftj#r1habhxk2c_v#z-l1j4_bb!q+x*ss#lgglvok
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.155','itt363-5.smar.com.do', "127.0.0.1"]
+ALLOWED_HOSTS = ['192.168.100.155','itt363-5.smar.com.do', "127.0.0.1", "localhost", "*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'estaciones.apps.EstacionesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels'
 ]
 
 
@@ -72,8 +72,8 @@ TEMPLATES = [
 ]
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
 
@@ -153,5 +153,6 @@ STATICFILES_DIRS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://itt363-5.smar.com.do',
+    "http://127.0.0.1:8000"
     # Add other trusted origins if needed
 ]
