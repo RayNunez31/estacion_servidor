@@ -52,6 +52,7 @@ def user_account_view(request):
     }
     return render(request, 'user_account.html', context)
 
+
 def mediciones_list(request):
     datos = Lectura.objects.all().order_by('-hora')
     paginator = Paginator(datos, 10)  # Mostrar 10 elementos por página
@@ -88,7 +89,7 @@ def logout_view(request):
     logout(request)
     return redirect('/login/')
 
-# @login_required
+@login_required
 def estaciones(request):
     estaciones_list = Estac.objects.all()
 
@@ -190,7 +191,7 @@ def agregar_sensor_view(request):
     }
     return render(request, 'agregar_sensor.html', context)
 
-#@login_required
+@login_required
 def dashboard_view(request):
     estacion_id = request.GET.get('estacion_id')
     
