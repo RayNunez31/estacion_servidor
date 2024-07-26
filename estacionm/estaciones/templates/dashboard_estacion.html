@@ -371,7 +371,7 @@
 
 <script>
     const estacionId = "{{ estacion.id_estacion }}";
-    const ws = new WebSocket('ws://' + window.location.host + `/dashboard/?estacion=${estacionId}`);
+    const ws = new WebSocket('wss://' + window.location.host + `/dashboard/?estacion=${estacionId}`);
 
 
     ws.onmessage = function(event) {
