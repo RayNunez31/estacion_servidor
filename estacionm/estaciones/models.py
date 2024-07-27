@@ -33,6 +33,7 @@ class Notificaciones(models.Model):
     mensaje = models.TextField()
     fecha = models.DateTimeField(blank=True, null=True)
     alarma = models.ForeignKey(Alarmas, models.DO_NOTHING, blank=True, null=True)
+    receiving_new_data = models.BooleanField(default=True)
 
     class Meta:
         managed = False
