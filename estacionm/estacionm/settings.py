@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['192.168.100.155','itt363-5.smar.com.do', "127.0.0.1", "localho
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'channels',
     'estaciones.apps.EstacionesConfig',
     'django.contrib.admin',
@@ -71,14 +72,10 @@ TEMPLATES = [
     },
 ]
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
+
 
 WSGI_APPLICATION = 'estacionm.wsgi.application'
-ASGI_APPLICATION = 'estacionm.asgi.application'
+
 
 
 # Database
@@ -157,3 +154,10 @@ CSRF_TRUSTED_ORIGINS = [
     # Add other trusted origins if needed
 ]
 
+ASGI_APPLICATION = 'estacionm.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}

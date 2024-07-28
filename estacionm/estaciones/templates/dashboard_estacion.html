@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+
+    <!-- <script src="https://unpkg.com/htmx.org@1.8.5"></script>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js"></script> -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estaciones</title>
@@ -284,6 +290,7 @@
 
     </style>
 </head>
+
 <body>
     <div class="frame-header">
         <div class="header-button-container">
@@ -302,35 +309,35 @@
         <h1>Reporte del clima de la estación {{ estacion.nombre }}</h1>
         <!-- Contenedor para los datos de la última lectura -->
         <hr class="menu-divider">
-        <div class="frame">
+        <div class="frame" id="lectura-frame">
             <div>
                 {% if ultima_lectura != None %}
                     <h2>Temperatura</h2>
                     <p id="temperatura">La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
-                    <h2 id="humedad" >Humedad</h2>
+                    <h2 id="humedad">Humedad</h2>
                     <p>La humedad actual es de {{ ultima_lectura.humedad }}%</p>
                     <h2>Presión Atmosférica</h2>
                     <p id="presionatmosferica">La presión atmosférica actual es de {{ ultima_lectura.presionatmosferica }} hPa</p>
                     <h2>Velocidad del Viento</h2>
-                    <p id="velocidad_del_viento" >La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
+                    <p id="velocidad_del_viento">La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
                     <h2>Dirección del Viento</h2>
-                    <p id="velocidad_del_viento" >La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
+                    <p id="velocidad_del_viento">La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
                     <h2>Pluvialidad</h2>
                     <p id="pluvialidad">Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
-                    {% else %}
-                        <h2>Temperatura</h2>
-                        <p>-</p>
-                        <h2>Humedad</h2>
-                        <p>-</p>
-                        <h2>Presión Atmosférica</h2>
-                        <p>-</p>
-                        <h2>Velocidad del Viento</h2>
-                        <p>-</p>
-                        <h2>Dirección del Viento</h2>
-                        <p>-</p>
-                        <h2>Pluvialidad</h2>
-                        <p>-</p>
-                    {% endif %}
+                {% else %}
+                    <h2>Temperatura</h2>
+                    <p>-</p>
+                    <h2>Humedad</h2>
+                    <p>-</p>
+                    <h2>Presión Atmosférica</h2>
+                    <p>-</p>
+                    <h2>Velocidad del Viento</h2>
+                    <p>-</p>
+                    <h2>Dirección del Viento</h2>
+                    <p>-</p>
+                    <h2>Pluvialidad</h2>
+                    <p>-</p>
+                {% endif %}
             </div>
         </div>
         <hr class="menu-divider">
@@ -379,29 +386,29 @@
             <p>No hay sensores asociados a esta estación.</p>
         {% endif %}
     </div>
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
+    
+        socket.onopen = function(e) {
+            console.log('Websocket connected succesfully');
+        };
 
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            document.getElementById('temperatura').innerText = `La temperatura actual es de ${data.temperatura} °C`;
+            document.getElementById('humedad').innerText = `La humedad actual es de ${data.humedad}%`;
+            document.getElementById('presionatmosferica').innerText = `La presión atmosférica actual es de ${data.presionatmosferica} hPa`;
+            document.getElementById('velocidad_del_viento').innerText = `La velocidad actual del viento es de ${data.velocidad_del_viento} m/s`;
+            document.getElementById('direccion_del_viento').innerText = `La dirección actual del viento es ${data.direccion_del_viento} °`;
+            document.getElementById('pluvialidad').innerText = `Pluvialidad: ${data.pluvialidad} mm`;
+        };
+
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+        };
+    </script>
 </body>
 
-<script>
-    const estacionId = "{{ estacion.id_estacion }}";
-    const ws = new WebSocket('wss://' + window.location.host + `/dashboard/?estacion=${estacionId}`);
 
-
-    ws.onmessage = function(event) {
-        const data = JSON.parse(e.data);
-        const message = JSON.parse(data.message);
-
-        document.getElementById('temperatura').innerText = message.temperatura + ' °C';
-        document.getElementById('humedad').innerText = message.humedad + '%';
-        document.getElementById('presionatmosferica').innerText = message.presionatmosferica + ' hPa';
-        document.getElementById('velocidad_del_viento').innerText = message.velocidad_del_viento + ' m/s';
-        document.getElementById('direccion_del_viento').innerText = message.direccion_del_viento + ' °';
-        document.getElementById('pluvialidad').innerText = message.pluvialidad + ' mm';
-    };
-
-    ws.onclose = function(event) {
-        console.error('WebSocket no pudo conectarse efectivamente');
-    };
-</script>
 
 </html>
