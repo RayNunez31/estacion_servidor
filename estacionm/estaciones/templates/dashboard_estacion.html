@@ -196,34 +196,7 @@
             color: #F5F5F5;
         }
 
-       
-
-        .communication-status-frame {
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #F5F5F5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .communication-status-frame h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            margin-left: 40px;
-            color: #1E1E1E;
-        }
-
-        .communication-status-frame p {
-            margin-bottom: 20px;
-            margin-left: 40px;
-            width: fit-content;
-            border-radius: 15px;
-            border: transparent;
-            padding: 20px;
-            font-size: 1.5em;
-            color: #02542D;
-            background-color: #CFF7D3;
-        }
+    
 
         .sensor-frame {
             border: 0px solid #ccc;
@@ -276,7 +249,38 @@
             height: auto;
             margin-left: 1000px;
         }
- 
+        .notification-frame {
+            border: 1px solid #F5F5F5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #F5F5F5;
+            font-size: 1.5em;
+        }
+
+        .notification-frame h2 {
+            margin-left: 20px;
+        }
+
+        .notification-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre las tarjetas */
+        }
+
+        .notification-frame .card2 {
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #F5F5F5;
+            font-size: 0.8em;
+            flex: 1 1 calc(33.333% - 20px); /* Ajuste para tres tarjetas por fila */
+            box-sizing: border-box;
+        }
+
+        .notification-frame .card2 h3 {
+            font-size: 1.3em;
+        }
 
     </style>
 </head>
@@ -341,11 +345,22 @@
         </div>
     </div>
     <br>
-    <!-- Frame para el estado de comunicación -->
-    <div class="communication-status-frame">
-        <h2>Estado de comunicación de la estación</h2>
+    <div class="notification-frame">
+        <h2>Últimas Notificaciones de Alarmas</h2>
         <hr class="menu-divider">
-        <p>Estado actual: {{ estacion.estado_comunicacion }}</p>
+        {% if notificaciones_estacion.all %}
+            <div class="notification-cards-container">
+                {% for notificacion in notificaciones_estacion.all %}
+                    <div class="card2">
+                        <h3>Alarma: {{ notificacion.alarma.nombre }}</h3>
+                        <p>{{ notificacion.mensaje }}</p>
+                        <p>Fecha y hora de activación: {{ notificacion.fecha }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay notificaciones asociadas a esta estación.</p>
+        {% endif %}
     </div>
     <br>
     <!-- Frame para equipos conectados a la estación (sensores) -->

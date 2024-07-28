@@ -336,7 +336,7 @@
 
         .card-actions button:nth-last-child(2):hover{
 
-        background-color: #000;
+        background-color: #4e4e4e;
         width: auto;
 
         }
@@ -347,9 +347,11 @@
 
         }
 
+
         .card-inframe{
             display: flex;
             justify-content: center;
+            padding-top: 30px;
         }
 
         .no-alarms p{
@@ -364,6 +366,10 @@
             width: 80px; /* Ajusta según el tamaño de tu imagen */
             height: auto;
         }
+
+    
+
+
 
         
 
@@ -437,14 +443,17 @@
                         <input type="range" id="pluvialidad" name="pluvialidad" min="0" max="150" step="0.01" oninput="this.nextElementSibling.value = this.value">
                         <output>0.00</output>
                     </div>
-                </div>
-
                 <div class="form-group">
                     <div class="button-frame">
                         <button type="submit" name="save" onsubmit="window.location.href='/alarmas/?estacion={{ estacion.id_estacion }}'">Agregar alarma</button>
                     </div>
+
                 </div>
+                </div>
+
             </form>
+    
+
         </div>    
     </div>
     <div class="card-frame">
@@ -460,12 +469,13 @@
                         <p>• Velocidad del viento: {{ alarma.velocidad_del_viento }} km/h</p>
                         <p>• Pluviometria: {{ alarma.pluvialidad }} mm/h</p>
                         <div class="card-actions">
-                            <button href="#" name="edit-alarm" class="edit-button" onclick="window.location.href='#'">Editar</button>
+                            <button name="edit-alarm" class="edit-button" onclick="window.location.href='/notificaciones/?alarma_id={{ alarma.id_alarma}}'">Ver registro de notificaciones</button>
                             <form method="post" onclick="return confirmDeleteAlarma();">
                                 {% csrf_token %}
                                 <input type="hidden" name="alarma_id" value="{{ alarma.id_alarma }}">
                                 <button type="submit" name="delete-alarm" class="delete-button">Eliminar Alarma</button>
                             </form>
+
                         </div>
                     </div>
                 {% endfor %}
@@ -491,7 +501,7 @@
     </div>
     <script>
         function confirmDeleteAlarma() {
-            return confirm('¿Está seguro de que desea eliminar esta alarma?');
+            return confirm('¿Está seguro de que desea eliminar esta alarma? también se eliminarán todas las notificaciones relacionadas a esta alarma');
         }
     </script>
 </body>

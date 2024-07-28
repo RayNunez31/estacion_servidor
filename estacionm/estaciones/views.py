@@ -18,7 +18,7 @@ from .forms import EstacUpdateForm
 from .forms import CustomUserCreationForm
 from datetime import datetime
 from django.db.models import Q
-
+from django.db.models import Max
 
 
 @login_required
@@ -205,17 +205,25 @@ def dashboard_view(request):
         ultima_lectura = None
 
     sensores_estacion = Sensor.objects.filter(estacion=estacion)
+    
+    # Obtener las alarmas configuradas para esta estación
+    alarmas_estacion = Alarmas.objects.filter(estacion=estacion)
+    
+    # Obtener las últimas notificaciones para cada alarma
+    ultima_notificacion_por_alarma = Notificaciones.objects.filter(alarma__in=alarmas_estacion).values('alarma').annotate(ultima_fecha=Max('fecha'))
+    notificaciones_estacion = Notificaciones.objects.filter(alarma__in=alarmas_estacion, fecha__in=[item['ultima_fecha'] for item in ultima_notificacion_por_alarma])
 
-    # Pasar 'estacion' y 'ultima_lectura' al contexto de renderizado de tu plantilla de dashboard
+    # Pasar 'estacion', 'ultima_lectura', 'sensores', 'alarmas' y 'notificaciones' al contexto de renderizado de tu plantilla de dashboard
     context = {
         'estacion': estacion,
         'ultima_lectura': ultima_lectura,
         'sensores': sensores_estacion,
+        'alarmas': alarmas_estacion,
+        'notificaciones_estacion': notificaciones_estacion,
     }
 
-
-    
     return render(request, 'dashboard_estacion.html', context)
+
 @login_required
 def lectura_detalle(request):
     lectura_id = request.GET.get('lectura_id')
@@ -240,13 +248,14 @@ def alarmas_view(request):
         if 'save' in request.POST:
             form = AlarmaForm(request.POST)
             if form.is_valid():
-                messages.success(request, 'Se ha agregado correctamente la alarma a la estación')
                 alarma = form.save(commit=False)
                 alarma.estacion = estacion
                 alarma.save()
         elif 'delete-alarm' in request.POST:
             alarma_id = request.POST.get('alarma_id')
             alarma = get_object_or_404(Alarmas, id_alarma=alarma_id)  # Ajustar a tu modelo de Alarma
+            notificaciones_alarma = Notificaciones.objects.filter(alarma_id=alarma_id)
+            notificaciones_alarma.delete()
             alarma.delete()
 
     else:
@@ -266,20 +275,15 @@ def registro_lectura_view(request):
     estacion = get_object_or_404(Estac, id_estacion=estacion_id)
 
     if estacion_id:
-        lecturas = Lectura.objects.filter(estacion=estacion)
+        lecturas = Lectura.objects.filter(estacion=estacion).order_by('-hora')
         if query:
             try:
                 # Convertir el formato de la consulta en un objeto datetime
                 fecha_hora = datetime.fromisoformat(query)
                 fecha = fecha_hora.date()
-                hora = fecha_hora.time()
                 
                 # Filtrar por fecha y hora
-                lecturas = lecturas.filter(
-                    Q(hora__date=fecha) & 
-                    Q(hora__time__hour=hora.hour) & 
-                    Q(hora__time__minute=hora.minute)
-                )
+                lecturas = lecturas.filter(hora__date=fecha).order_by('-hora')
             except ValueError:
                 # Manejar el caso donde el formato de la fecha y hora es incorrecto
                 lecturas = Lectura.objects.none()
@@ -296,3 +300,39 @@ def registro_lectura_view(request):
         'estacion': estacion,  # Reemplaza con los datos reales de la estación
     }
     return render(request, 'registro_lectura.html', context)
+
+
+@login_required
+def registro_notificaciones_view(request):
+    alarma_id = request.GET.get('alarma_id')
+    query = request.GET.get('q', '')
+
+    # Verificar que el alarma_id esté presente y sea válido
+    alarma = get_object_or_404(Alarmas, id_alarma=alarma_id)
+
+    if alarma_id:
+        notificaciones = Notificaciones.objects.filter(alarma_id=alarma_id).order_by('-fecha')
+        if query:
+            try:
+                # Convertir el formato de la consulta en un objeto datetime
+                fecha = datetime.strptime(query, "%Y-%m-%d").date()
+                
+                # Filtrar por fecha
+                notificaciones = notificaciones.filter(fecha__date=fecha).order_by('-fecha')
+            except ValueError:
+                # Manejar el caso donde el formato de la fecha es incorrecto
+                notificaciones = Notificaciones.objects.none()
+    else:
+        notificaciones = Notificaciones.objects.none()
+
+    paginator = Paginator(notificaciones, 10)  # Mostrar 10 notificaciones por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+        'alarma': alarma,  # Reemplaza con los datos reales de la alarma
+        "notificaciones": notificaciones,
+    }
+    return render(request, 'registro_notificaciones.html', context)

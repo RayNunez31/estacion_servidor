@@ -276,32 +276,30 @@
     </div>
     <!-- Título en frame -->
     <div class="title-frame">
-        <h1>Registro de lecturas</h1>
-        <p>Lecturas para la estacion ID{{ estacion.id_estacion }} - {{ estacion.nombre }}</p>
+        <h1>Registro de notificaciones</h1>
+        <p>Notificaciones para la alarma ID{{ alarma.id_alarma }} - {{ alarma.nombre }}</p>
     </div>
 
     <!-- Barra de búsqueda -->
     <div class="search-sort">
         <form method="GET">
-            <input type="hidden" name="estacion_id" value="{{ estacion.id_estacion }}">
-            <input type="date" name="q" value="{{ query }}" placeholder="Selecciona fecha y hora">
+            <input type="hidden" name="alarma_id" value="{{ alarma.id_alarma }}">
+            <input type="date" name="q" value="{{ query }}" placeholder="Selecciona fecha">
             <button type="submit">Buscar</button>
         </form>
     </div>
 
     <!-- Frames de Estaciones -->
-    {% for lecturas in page_obj %}
+    {% for notificaciones in page_obj %}
     <div class="frame">
         <div class="innter">
-            <img src="../../static/images/lect2.png" alt="Imagen de la lectura">
+            <img src="../../static/images/notice.png" alt="Imagen de la lectura">
         </div>
         <div class="frame-text">
-            <h2>ID{{ lecturas.id_lectura }} </h2>
-            <p class="frame-text-content">Lectura recibida: {{ lecturas.hora }}</p>
-            <br>
-            <!-- Modificado el enlace del botón "Administrar" -->
-            <button class="card-button" onclick="window.location.href='/lectura_detalle/?lectura_id={{ lecturas.id_lectura }}'">Ver detalles</button>
-            <br>
+            <h2>ID{{ notificaciones.id_notificacion }} </h2>
+            <h3>Alarma: {{ notificaciones.alarma.nombre }}</h3>
+            <p>{{ notificaciones.mensaje }}</p>
+            <p>Fecha y hora de activación: {{ notificaciones.fecha }}</p>
         </div>
     </div>
     {% endfor %}
