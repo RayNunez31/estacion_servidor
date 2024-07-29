@@ -18,6 +18,7 @@ class DashboardConsumer(WebsocketConsumer):
     def receive(self, text_data):
         # Recibir datos del WebSocket
         data = json.loads(text_data)
+        print('Mensaje Recibido')
         # Envía los datos a todos los clientes conectados al grupo
         async_to_sync(self.channel_layer.group_send)(
             self.GROUP_NAME,

@@ -321,7 +321,7 @@
                     <h2>Velocidad del Viento</h2>
                     <p id="velocidad_del_viento">La velocidad actual del viento es de {{ ultima_lectura.velocidad_del_viento }} m/s</p>
                     <h2>Dirección del Viento</h2>
-                    <p id="velocidad_del_viento">La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
+                    <p id="direccion_del_viento">La dirección actual del viento es {{ ultima_lectura.direccion_del_viento }} °</p>
                     <h2>Pluvialidad</h2>
                     <p id="pluvialidad">Pluvialidad: {{ ultima_lectura.pluvialidad }} mm</p>
                 {% else %}
@@ -388,20 +388,20 @@
     </div>
     <script>
         var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
-    
         socket.onopen = function(e) {
             console.log('Websocket connected succesfully');
         };
-
+        
         socket.onmessage = function(e) {
             console.log('Se ha recibido un mensaje');
+
             const data = JSON.parse(e.data);
-            document.querySelector('#temperatura').innerText = `La temperatura actual es de ${data.temperatura} °C`;
-            document.querySelector('#humedad').innerText = `La humedad actual es de ${data.humedad}%`;
-            document.querySelector('#presionatmosferica').innerText = `La presión atmosférica actual es de ${data.presionatmosferica} hPa`;
-            document.querySelector('#velocidad_del_viento').innerText = `La velocidad actual del viento es de ${data.velocidad_del_viento} m/s`;
-            document.querySelector('#direccion_del_viento').innerText = `La dirección actual del viento es ${data.direccion_del_viento} °`;
-            document.querySelector('#pluvialidad').innerText = `Pluvialidad: ${data.pluvialidad} mm`;
+                document.querySelector('#temperatura').innerText = `La temperatura actual es de ${data.temperatura} °C`;
+                document.querySelector('#humedad').innerText = `La humedad actual es de ${data.humedad}%`;
+                document.querySelector('#presionatmosferica').innerText = `La presión atmosférica actual es de ${data.presionatmosferica} hPa`;
+                document.querySelector('#velocidad_del_viento').innerText = `La velocidad actual del viento es de ${data.velocidad_del_viento} m/s`;
+                document.querySelector('#direccion_del_viento').innerText = `La dirección actual del viento es ${data.direccion_del_viento} °`;
+                document.querySelector('#pluvialidad').innerText = `Pluvialidad: ${data.pluvialidad} mm`;
         };
 
         socket.onclose = function(e) {

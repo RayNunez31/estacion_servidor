@@ -10,7 +10,7 @@ import websocket
 broker = "test.mosquitto.org"
 port = 1883
 base_topic = "estacion"
-websocket_url = 'ws://localhost:8000/ws/dashboard/'  # Cambia esto a la URL de tu servidor WebSocket
+websocket_url = 'wss://itt363-5.smar.com.do:8080/ws/dashboard/'  # Cambia esto a la URL de tu servidor WebSocket
 
 def Datos(station_id):
     hora_actual = time.localtime()
