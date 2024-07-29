@@ -387,7 +387,7 @@
         {% endif %}
     </div>
     <script>
-        var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
+        var socket = new WebSocket('wss://' + window.location.host + '/ws/dashboard/');
         socket.onopen = function(e) {
             console.log('Websocket connected succesfully');
         };
