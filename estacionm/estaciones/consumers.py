@@ -16,12 +16,34 @@ class DashboardConsumer(WebsocketConsumer):
         )
     
     def receive(self, text_data):
+        # Recibir datos del WebSocket
         data = json.loads(text_data)
+        # Envía los datos a todos los clientes conectados al grupo
+        async_to_sync(self.channel_layer.group_send)(
+            self.GROUP_NAME,
+            {
+                'type': 'send_dashboard_data',  # Añade el tipo de mensaje
+                'estacion_id': data.get('estacion_id'),  # Incluye el ID de la estación en los datos enviados
+                'temperatura': data.get('temperatura'),
+                'humedad': data.get('humedad'),
+                'presionatmosferica': data.get('presionatmosferica'),
+                'velocidad_del_viento': data.get('velocidad_del_viento'),
+                'direccion_del_viento': data.get('direccion_del_viento'),
+                'pluvialidad': data.get('pluvialidad'),
+                'hora': data.get('hora')
+            }
+        )
+
+    def send_dashboard_data(self, event):
+        # Envía los datos de vuelta al WebSocket
         self.send(text_data=json.dumps({
-            'temperatura': data['temperatura'],
-            'humedad': data['humedad'],
-            'presionatmosferica': data['presionatmosferica'],
-            'velocidad_del_viento': data['velocidad_del_viento'],
-            'direccion_del_viento': data['direccion_del_viento'],
-            'pluvialidad': data['pluvialidad'],
+            'estacion_id': event['estacion_id'],
+            'temperatura': event['temperatura'],
+            'humedad': event['humedad'],
+            'presionatmosferica': event['presionatmosferica'],
+            'velocidad_del_viento': event['velocidad_del_viento'],
+            'direccion_del_viento': event['direccion_del_viento'],
+            'pluvialidad': event['pluvialidad'],
+            'hora': event['hora']
         }))
+
