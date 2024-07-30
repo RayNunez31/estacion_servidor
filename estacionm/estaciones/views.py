@@ -191,7 +191,7 @@ def agregar_sensor_view(request):
     }
     return render(request, 'agregar_sensor.html', context)
 
-# @login_required
+@login_required
 def dashboard_view(request):
     estacion_id = request.GET.get('estacion_id')
     

@@ -1,6 +1,12 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
+import threading
+from .models import Estac, Newlectura
+import time
+from datetime import datetime, timedelta
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class DashboardConsumer(WebsocketConsumer):
     def connect(self):
@@ -48,3 +54,53 @@ class DashboardConsumer(WebsocketConsumer):
             'hora': event['hora']
         }))
 
+class AllUsersConsumer(WebsocketConsumer):
+    def connect(self):
+        self.GROUP_NAME = 'realtime-updates'
+        async_to_sync(self.channel_layer.group_add)(
+            self.GROUP_NAME, self.channel_name
+        )
+        self.accept()
+
+        # Start the periodic task
+        self.keep_running = True
+        self.check_thread = threading.Thread(target=self.check_for_inactive_stations)
+        self.check_thread.start()
+
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.GROUP_NAME, self.channel_name
+        )
+        self.keep_running = False
+        self.check_thread.join()
+
+    def check_for_inactive_stations(self):
+        while self.keep_running:
+            now = datetime.now()
+            one_minute_ago = now - timedelta(minutes=1)
+            print('Checking communication status...')
+            for station in Estac.objects.all():
+                try:
+                    ultima_actualizacion = station.ultima_actualizacion
+                    tiempo_transcurrido = datetime.now() - ultima_actualizacion
+                    if tiempo_transcurrido > timedelta(minutes=1):
+                        self.send_station_inactive_notification(station)
+                except ObjectDoesNotExist:
+                    # Manejar caso donde no existe última actualización
+                    pass
+
+            time.sleep(70)  # Check every minute
+
+    def send_station_inactive_notification(self, station):
+        async_to_sync(self.channel_layer.group_send)(
+            self.GROUP_NAME,
+            {
+                'type': 'station.inactive',
+                'message': f'La estacion {station.nombre} no ha recibido nuevos datos en el ultimo minuto.',
+                
+            }
+        )
+
+    def station_inactive(self, event):
+        message = event['message']
+        self.send(text_data=message)

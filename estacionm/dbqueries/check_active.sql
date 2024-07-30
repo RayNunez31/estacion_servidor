@@ -1,18 +1,14 @@
-
-
-CREATE OR REPLACE FUNCTION update_estac_status() RETURNS void AS $$
+CREATE OR REPLACE FUNCTION update_estac_status()
+RETURNS void LANGUAGE plpgsql AS $$
 BEGIN
-    -- Update has_new_data to false for all stations initially
+	-- Establecer la zona horaria a "America/Santo_Domingo"
+    PERFORM set_config('TimeZone', 'America/Santo_Domingo', true);
     UPDATE estac
-    SET has_new_data = FALSE;
-
-    -- Update has_new_data to true for stations that have received new data in the last 5 minutes
-    UPDATE estac
-    SET has_new_data = TRUE
-    WHERE id_estacion IN (
-        SELECT DISTINCT estacion_id
+    SET has_new_data = (
+        SELECT COUNT(*) > 0
         FROM newlectura
-        WHERE hora >= NOW() - INTERVAL '5 minutes'
+        WHERE estacion_id = estac.id_estacion
+          AND hora >= NOW() - INTERVAL '1 minute'
     );
 END;
-$$ LANGUAGE plpgsql;
+$$;

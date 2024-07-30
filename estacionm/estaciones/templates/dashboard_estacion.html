@@ -387,9 +387,10 @@
         {% endif %}
     </div>
     <script>
-        var socket = new WebSocket('wss://' + window.location.host + '/ws/dashboard/');
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
         socket.onopen = function(e) {
             console.log('Websocket connected succesfully');
+            console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/dashboard/')
         };
         
         socket.onmessage = function(e) {
@@ -405,6 +406,22 @@
         };
 
         socket.onclose = function(e) {
+            console.error('WebSocket closed');
+        };
+
+        var socket2 = new WebSocket('ws://' + window.location.host + '/ws/all_users/');
+        socket2.onopen = function(e) {
+            console.log('Websocket for notifications connected succesfully');
+            console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/all_users/')
+        };
+        
+        socket2.onmessage = function(event) {
+                const message = event.data;
+                console.log('Se ha recibido una notificacion');
+                alert(message);  // Show a popup alert with the notification message
+            };
+
+        socket2.onclose = function(e) {
             console.error('WebSocket closed');
         };
     </script>

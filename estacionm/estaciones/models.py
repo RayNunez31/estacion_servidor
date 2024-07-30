@@ -8,6 +8,8 @@ class Estac(models.Model):
     nombre = models.CharField(max_length=100, blank=True, null=True)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     has_new_data = models.BooleanField(default=True)
+    ultima_actualizacion = models.DateTimeField(blank=True, null=True)
+
 
     class Meta:
         managed = False
