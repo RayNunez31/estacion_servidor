@@ -83,13 +83,13 @@ class AllUsersConsumer(WebsocketConsumer):
                 try:
                     ultima_actualizacion = station.ultima_actualizacion
                     tiempo_transcurrido = datetime.now() - ultima_actualizacion
-                    if tiempo_transcurrido > timedelta(minutes=5):
+                    if tiempo_transcurrido > timedelta(minutes=2):
                         self.send_station_inactive_notification(station)
                 except ObjectDoesNotExist:
                     # Manejar caso donde no existe última actualización
                     pass
 
-            time.sleep(70)  # Check every minute
+            time.sleep(120)  # Check every minute
 
     def send_station_inactive_notification(self, station):
         async_to_sync(self.channel_layer.group_send)(
