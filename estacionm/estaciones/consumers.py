@@ -83,7 +83,7 @@ class AllUsersConsumer(WebsocketConsumer):
                 try:
                     ultima_actualizacion = station.ultima_actualizacion
                     tiempo_transcurrido = datetime.now() - ultima_actualizacion
-                    if tiempo_transcurrido > timedelta(minutes=1):
+                    if tiempo_transcurrido > timedelta(minutes=5):
                         self.send_station_inactive_notification(station)
                 except ObjectDoesNotExist:
                     # Manejar caso donde no existe última actualización
@@ -96,7 +96,7 @@ class AllUsersConsumer(WebsocketConsumer):
             self.GROUP_NAME,
             {
                 'type': 'station.inactive',
-                'message': f'La estacion {station.nombre} no ha recibido nuevos datos en el ultimo minuto.',
+                'message': f'La estacion {station.nombre} actualmente se encuentra desconectada',
                 
             }
         )

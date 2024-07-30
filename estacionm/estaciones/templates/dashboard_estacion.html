@@ -312,6 +312,7 @@
         <div class="frame" id="lectura-frame">
             <div>
                 {% if ultima_lectura != None %}
+                    <p id="fecha_de_recepcion">Ultima lectura recibida: {{ ultima_lectura.hora }}</p>
                     <h2>Temperatura</h2>
                     <p id="temperatura">La temperatura actual es de {{ ultima_lectura.temperatura }} °C</p>
                     <h2>Humedad</h2>
@@ -389,14 +390,14 @@
     <script>
         var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
         socket.onopen = function(e) {
-            console.log('Websocket connected succesfully');
+            console.log('Websocket for live data updates connected succesfully');
             console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/dashboard/')
         };
         
         socket.onmessage = function(e) {
-            console.log('Se ha recibido un mensaje');
 
             const data = JSON.parse(e.data);
+                document.querySelector('#fecha_de_recepcion').innerText = `Ultima lectura recibida: ${data.hora}`;
                 document.querySelector('#temperatura').innerText = `La temperatura actual es de ${data.temperatura} °C`;
                 document.querySelector('#humedad').innerText = `La humedad actual es de ${data.humedad}%`;
                 document.querySelector('#presionatmosferica').innerText = `La presión atmosférica actual es de ${data.presionatmosferica} hPa`;
