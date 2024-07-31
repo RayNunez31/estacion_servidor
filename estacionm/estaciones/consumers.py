@@ -6,6 +6,9 @@ from .models import Estac, Newlectura
 import time
 from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
+from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+import asyncio
 
 
 class DashboardConsumer(WebsocketConsumer):
@@ -54,42 +57,46 @@ class DashboardConsumer(WebsocketConsumer):
             'hora': event['hora']
         }))
 
-class AllUsersConsumer(WebsocketConsumer):
-    def connect(self):
+class AllUsersConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
         self.GROUP_NAME = 'realtime-updates'
-        async_to_sync(self.channel_layer.group_add)(
+        await self.channel_layer.group_add(
             self.GROUP_NAME, self.channel_name
         )
-        self.accept()
+        await self.accept()
 
         # Start the periodic task
         self.keep_running = True
-        self.check_thread = threading.Thread(target=self.check_for_inactive_stations)
-        self.check_thread.start()
+        self.check_task = asyncio.create_task(self.check_for_inactive_stations())
 
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
             self.GROUP_NAME, self.channel_name
         )
         self.keep_running = False
-        self.check_thread.join()
+        self.check_task.cancel()
+        await self.check_task
 
-    def check_for_inactive_stations(self):
+    async def check_for_inactive_stations(self):
         while self.keep_running:
             now = datetime.now()
             one_minute_ago = now - timedelta(minutes=1)
             print('Checking communication status...')
-            for station in Estac.objects.all():
-                try:
-                    ultima_actualizacion = station.ultima_actualizacion
-                    tiempo_transcurrido = datetime.now() - ultima_actualizacion
-                    if tiempo_transcurrido > timedelta(minutes=2):
-                        self.send_station_inactive_notification(station)
-                except ObjectDoesNotExist:
-                    # Manejar caso donde no existe última actualización
-                    pass
+            await self.check_stations()
+            await asyncio.sleep(60)  # Check every minute
 
-            time.sleep(120)  # Check every minute
+    @database_sync_to_async
+    def check_stations(self):
+        now = datetime.now()
+        for station in Estac.objects.all():
+            try:
+                ultima_actualizacion = station.ultima_actualizacion
+                tiempo_transcurrido = now - ultima_actualizacion
+                if tiempo_transcurrido > timedelta(minutes=2):
+                    self.send_station_inactive_notification(station)
+            except ObjectDoesNotExist:
+                # Handle case where there is no last update
+                pass
 
     def send_station_inactive_notification(self, station):
         async_to_sync(self.channel_layer.group_send)(
@@ -97,10 +104,9 @@ class AllUsersConsumer(WebsocketConsumer):
             {
                 'type': 'station.inactive',
                 'message': f'La estacion {station.nombre} actualmente se encuentra desconectada',
-                
             }
         )
 
-    def station_inactive(self, event):
+    async def station_inactive(self, event):
         message = event['message']
-        self.send(text_data=message)
+        await self.send(text_data=message)

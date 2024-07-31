@@ -388,7 +388,7 @@
         {% endif %}
     </div>
     <script>
-        var socket = new WebSocket('wss://' + window.location.host + '/ws/dashboard/');
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
         socket.onopen = function(e) {
             console.log('Websocket for live data updates connected succesfully');
             console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/dashboard/')
@@ -410,7 +410,7 @@
             console.error('WebSocket closed');
         };
 
-        var socket2 = new WebSocket('wss://' + window.location.host + '/ws/all_users/');
+        var socket2 = new WebSocket('ws://' + window.location.host + '/ws/all_users/');
         socket2.onopen = function(e) {
             console.log('Websocket for notifications connected succesfully');
             console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/all_users/')
