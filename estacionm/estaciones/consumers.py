@@ -103,10 +103,15 @@ class AllUsersConsumer(AsyncWebsocketConsumer):
             self.GROUP_NAME,
             {
                 'type': 'station.inactive',
-                'message': f'La estacion {station.nombre} actualmente se encuentra desconectada',
+                'message': f'La estación {station.nombre} actualmente se encuentra desconectada',
+                'id_estacion': station.id_estacion,
             }
         )
 
     async def station_inactive(self, event):
         message = event['message']
-        await self.send(text_data=message)
+        id_estacion = event['id_estacion']
+        await self.send(text_data=json.dumps({
+            'message': message,
+            'id_estacion': id_estacion
+        }))

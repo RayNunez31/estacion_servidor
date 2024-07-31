@@ -288,12 +288,16 @@
             font-size: 1.3em;
         }
 
+        .frame-header p{
+            color: #fff;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="frame-header">
-        <div class="header-button-container">
+s        <div class="header-button-container">
             <button  onclick="window.location.href='/'">Estaciones</a></button>
             <button>Recursos</button>
             <button>Contacto</button>
@@ -388,15 +392,18 @@
         {% endif %}
     </div>
     <script>
-        var socket = new WebSocket('ws://' + window.location.host + '/ws/dashboard/');
+        var socket = new WebSocket('wss://' + window.location.host + '/ws/dashboard/');
         socket.onopen = function(e) {
             console.log('Websocket for live data updates connected succesfully');
             console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/dashboard/')
         };
-        
+
+     
+        var estacionId = document.querySelector('#estacionID').innerText;    
         socket.onmessage = function(e) {
 
             const data = JSON.parse(e.data);
+                if (data.estacion_id == estacionId) {
                 document.querySelector('#fecha_de_recepcion').innerText = `Ultima lectura recibida: ${data.hora}`;
                 document.querySelector('#temperatura').innerText = `La temperatura actual es de ${data.temperatura} °C`;
                 document.querySelector('#humedad').innerText = `La humedad actual es de ${data.humedad}%`;
@@ -404,23 +411,27 @@
                 document.querySelector('#velocidad_del_viento').innerText = `La velocidad actual del viento es de ${data.velocidad_del_viento} m/s`;
                 document.querySelector('#direccion_del_viento').innerText = `La dirección actual del viento es ${data.direccion_del_viento} °`;
                 document.querySelector('#pluvialidad').innerText = `Pluvialidad: ${data.pluvialidad} mm`;
+                }
         };
 
         socket.onclose = function(e) {
             console.error('WebSocket closed');
         };
 
-        var socket2 = new WebSocket('ws://' + window.location.host + '/ws/all_users/');
+        var socket2 = new WebSocket('wss://' + window.location.host + '/ws/all_users/');
         socket2.onopen = function(e) {
             console.log('Websocket for notifications connected succesfully');
             console.log('Websocket server domain:'+'ws://' + window.location.host + '/ws/all_users/')
         };
         
+
         socket2.onmessage = function(event) {
-                const message = event.data;
-                console.log('Se ha recibido una notificacion');
-                alert(message);  // Show a popup alert with the notification message
-            };
+            const data = JSON.parse(event.data);
+            if (data.id_estacion == estacionId) {
+            console.log('Esta estación no se encuentra comunicando actualmente..');
+            alert(data.message);  // Show a popup alert with the notification message
+            }
+        };
 
         socket2.onclose = function(e) {
             console.error('WebSocket closed');
