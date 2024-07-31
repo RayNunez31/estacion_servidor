@@ -42,8 +42,8 @@ def connect_mqtt(client_id):
     return client
 
 def publish(client, station_id):
-    ws = websocket.WebSocket()
-    ws.connect(websocket_url)
+    # ws = websocket.WebSocket()
+    # ws.connect(websocket_url)
     while True:
         datos = Datos(station_id)
         payload = json.dumps(datos, default=str)
@@ -53,12 +53,12 @@ def publish(client, station_id):
         if status == 0:
             print(f"Enviado {payload} a {topic}")
             # Enviar datos al servidor WebSocket
-            ws.send(payload)
+            # ws.send(payload)
             print(f"Datos enviados al WebSocket: {payload}")
         else:
             print(f"Mensaje fallido {topic}")
         time.sleep(5)
-    ws.close()
+    # ws.close()
 
 def subscribe(client, station_ids):
     def on_message(client, userdata, msg):
