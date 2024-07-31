@@ -208,10 +208,16 @@ def dashboard_view(request):
     
     # Obtener las alarmas configuradas para esta estación
     alarmas_estacion = Alarmas.objects.filter(estacion=estacion)
-    
-    # Obtener las últimas notificaciones para cada alarma
-    ultima_notificacion_por_alarma = Notificaciones.objects.filter(alarma__in=alarmas_estacion).values('alarma').annotate(ultima_fecha=Max('fecha'))
-    notificaciones_estacion = Notificaciones.objects.filter(alarma__in=alarmas_estacion, fecha__in=[item['ultima_fecha'] for item in ultima_notificacion_por_alarma])
+
+    # Obtener la última notificación para cada alarma
+    notificaciones_estacion = []
+    for alarma in alarmas_estacion:
+        try:
+            ultima_notificacion = Notificaciones.objects.filter(alarma=alarma).latest('fecha')
+            notificaciones_estacion.append(ultima_notificacion)
+        except ObjectDoesNotExist:
+            # Si no hay notificaciones para esta alarma, continuar
+            continue
 
     # Pasar 'estacion', 'ultima_lectura', 'sensores', 'alarmas' y 'notificaciones' al contexto de renderizado de tu plantilla de dashboard
     context = {

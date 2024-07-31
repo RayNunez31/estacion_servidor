@@ -362,9 +362,9 @@
     <div class="notification-frame">
         <h2>Últimas Notificaciones de Alarmas</h2>
         <hr class="menu-divider">
-        {% if notificaciones_estacion.all %}
+        {% if notificaciones_estacion %}
             <div class="notification-cards-container">
-                {% for notificacion in notificaciones_estacion.all %}
+                {% for notificacion in notificaciones_estacion %}
                     <div class="card2">
                         <h3>Alarma: {{ notificacion.alarma.nombre }}</h3>
                         <p>{{ notificacion.mensaje }}</p>

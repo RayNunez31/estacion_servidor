@@ -10,7 +10,7 @@ import websocket
 broker = "test.mosquitto.org"
 port = 1883
 base_topic = "estacion"
-websocket_url = 'ws://localhost:8000/ws/dashboard/'  # Cambia esto a la URL de tu servidor WebSocket
+websocket_url = 'wss://itt363-5.smar.com.do/ws/dashboard/'  # Cambia esto a la URL de tu servidor WebSocket
 
 def Datos(station_id):
     hora_actual = time.localtime()
@@ -42,8 +42,11 @@ def connect_mqtt(client_id):
     return client
 
 def publish(client, station_id):
-    # ws = websocket.WebSocket()
-    # ws.connect(websocket_url)
+    ws = websocket.WebSocket()
+    try:
+        ws.connect(websocket_url)
+    except Exception as e:
+        print(f"Error al conectar con el WebSocket: {e}")
     while True:
         datos = Datos(station_id)
         payload = json.dumps(datos, default=str)
@@ -53,12 +56,15 @@ def publish(client, station_id):
         if status == 0:
             print(f"Enviado {payload} a {topic}")
             # Enviar datos al servidor WebSocket
-            # ws.send(payload)
-            print(f"Datos enviados al WebSocket: {payload}")
+            try:
+                ws.send(payload)
+                print(f"Datos enviados al WebSocket: {payload}")
+            except Exception as e:
+                print(f"Error al enviar datos al WebSocket: {e}")
         else:
             print(f"Mensaje fallido {topic}")
         time.sleep(5)
-    # ws.close()
+    ws.close()
 
 def subscribe(client, station_ids):
     def on_message(client, userdata, msg):
