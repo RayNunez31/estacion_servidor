@@ -19,6 +19,8 @@ from .forms import CustomUserCreationForm
 from datetime import datetime
 from django.db.models import Q
 from django.db.models import Max
+from django.http import HttpResponseNotFound
+from django.template import loader
 
 
 @login_required
@@ -342,3 +344,5 @@ def registro_notificaciones_view(request):
         "notificaciones": notificaciones,
     }
     return render(request, 'registro_notificaciones.html', context)
+
+

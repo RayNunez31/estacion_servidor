@@ -3,6 +3,8 @@ from django.urls import path
 from . import views
 from .views import login_view, register_view, logout_view, crear_estacion, dashboard_view, registro_lectura_view, lectura_detalle, administrar_view, agregar_sensor_view, alarmas_view, registro_notificaciones_view
 
+
+
 app_name = "estaciones"
 urlpatterns = [
     path('view/', views.mediciones_list, name='mediciones_list'),
