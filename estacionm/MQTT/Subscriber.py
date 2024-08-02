@@ -29,11 +29,22 @@ def subscribe(client, station_ids):
         print(f"Recibido {msg.payload.decode()} de {msg.topic}")
         datos = json.loads(msg.payload.decode())
         # Enviar datos al servidor WebSocket
+        mapped_data = {
+            "estacion_id": datos.get("estacion_id"),
+            "temperatura": datos.get("temperatura"),
+            "humedad": datos.get("humedad"),
+            "presionatmosferica": datos.get("presion"),
+            "velocidad_del_viento": datos.get("velocidad_viento"),
+            "direccion_del_viento": datos.get("direccion_viento"),
+            "pluvialidad": datos.get("pluvialidad"),
+            "hora": datos.get("fecha")  # Asegúrate de que la fecha esté en el formato adecuado
+        }
+
         ws = websocket.WebSocket()
         try:
             ws.connect(websocket_url)
-            ws.send(json.dumps(datos, default=str))
-            print(f"Datos enviados al WebSocket: {json.dumps(datos, default=str)}")
+            ws.send(json.dumps(mapped_data, default=str))
+            print(f"Datos enviados al WebSocket: {json.dumps(mapped_data, default=str)}")
         except Exception as e:
             print(f"Error al conectar o enviar datos al WebSocket: {e}")
         finally:
@@ -48,9 +59,9 @@ def subscribe(client, station_ids):
             cursor = connection.cursor()
             insert_query = """
             INSERT INTO newlectura (estacion_id, temperatura, humedad, presionatmosferica, velocidad_del_viento, direccion_del_viento, pluvialidad, hora)
-            VALUES (%(estacion_id)s, %(temperatura)s, %(humedad)s, %(presionatmosferica)s, %(velocidad_del_viento)s, %(direccion_del_viento)s, %(pluvialidad)s, %(hora)s)
+            VALUES (%(estacion_id)s, %(temperatura)s, %(humedad)s, %(presionatmosferica)s, %(velocidad_del_viento)s , %(direccion_del_viento)s, %(pluvialidad)s, %(hora)s)
             """
-            cursor.execute(insert_query, datos)
+            cursor.execute(insert_query, mapped_data)
             connection.commit()
             cursor.close()
             connection.close()
@@ -69,7 +80,7 @@ def run_subscriber(station_ids):
     subscribe(client, station_ids)
     client.loop_forever()
 
-if __name__ == '__main__':
+if __name__ == '_main_':
     try:
         connection = psycopg2.connect(
             host='192.168.100.155',
@@ -102,7 +113,7 @@ if __name__ == '__main__':
                     print(f"Error al insertar estación '{nombre}': {e}")
 
         # Obtener IDs de estaciones
-        cursor.execute("SELECT id_estacion FROM estac WHERE nombre IN ('Estación 1', 'Estación 2')")
+        cursor.execute("SELECT id_estacion FROM estac WHERE nombre IN ('Estación 1')")
         estaciones = cursor.fetchall()
         station_ids = [estacion[0] for estacion in estaciones]
 
